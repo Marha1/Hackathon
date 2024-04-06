@@ -38,17 +38,16 @@ public class UserService:IUserService
 
     
 
-    public UserUpdateResponse Update(User entity)
+    public bool Update(User entity)
     {
         var users = _mapper.Map<User>(entity);
-        _userRepository.Update(users);
-        return _mapper.Map<UserUpdateResponse>(users);
+        
+        return  _userRepository.Update(users);
     }
 
 
     public bool Delete(Guid id)
     {
-        var responce=_userRepository.Delete(id);
-        return responce;
+        return _userRepository.Delete(id);
     }
 }
