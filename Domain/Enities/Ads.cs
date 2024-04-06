@@ -1,12 +1,7 @@
-using System.ComponentModel.DataAnnotations;
 using Domain.Validations;
-using FluentValidation;
 using ValidationException = FluentValidation.ValidationException;
 using ValidationResult = FluentValidation.Results.ValidationResult;
-
-
 namespace Domain.Enities;
-
 public class Ads: BaseEntity
 {
     public Ads(int number,string text,int rating,DateTime created,DateTime expirationDate)
@@ -23,7 +18,8 @@ public class Ads: BaseEntity
         Created = created;
         ExpirationDate = expirationDate;
     }
-    public int Number { get; set; }
+
+    public int Number { get; set; } 
     public string Text { get; set; }
     public int Rating { get; set; }
     public DateTime Created { get; set; }

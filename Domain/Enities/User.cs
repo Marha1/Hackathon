@@ -1,9 +1,7 @@
 using Domain.Validations;
 using FluentValidation;
 using FluentValidation.Results;
-
 namespace Domain.Enities;
-
 public class User: BaseEntity
 {
     public User(string name,bool isAdmin)
