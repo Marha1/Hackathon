@@ -1,17 +1,16 @@
-﻿using Application.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
+using Application.Services.Interfaces;
 using Domain.Enities;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Application.Controllers
+namespace Application.Controllers;
+
+public class AdsController: ControllerBase
 {
-    [Route("api/[controller]")]
-    public class UserController : ControllerBase
-    {
-        private readonly IUserService _userService;
+    private readonly IAdsService _adsService;
 
-        public UserController(IUserService userService)
+        public AdsController(IAdsService adsService)
         {
-            this._userService = userService;
+            this._adsService = adsService;
         }
 
         [HttpPost("Add")]
@@ -19,48 +18,41 @@ namespace Application.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
-        public IActionResult AddUser([FromBody] User request)
+        public IActionResult AddUser([FromBody] Ads request)
         {
-            _userService.Add(request);
+            if (!_adsService.TryToPublic(request.UserId))
+            {
+                return BadRequest("Пользователь достиг максимальное кол-во объявлений");
+            }
+
+            if (_adsService.Add(request)==null)
+            {
+                return BadRequest("Пользователь не найден");
+            }
             return Ok();
         }
 
         [HttpGet("Get")]
-        [ProducesResponseType(typeof(IEnumerable<User>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<Ads>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult GetUser()
         {
-            var responce = _userService.GetAll();
+            var responce = _adsService.GetAll();
             if (responce == null)
             {
                 return NotFound();
             }
             return Ok(responce);
         }
-        [HttpGet("FindById")]
-        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult GetUserById([FromQuery] Guid userId) 
-        {
-            var user = _userService.FindById(userId); 
-            if (user == null)
-            {
-                return NotFound();
-            }
-            return Ok(user);
-        }
-
-        
         [HttpDelete("Delete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
-        public IActionResult DeleteUser([FromBody] User request)
+        public IActionResult DeleteUser([FromBody] Ads request)
         {
-            var deleted = _userService.Delete(request.Id);
+            var deleted = _adsService.Delete(request.Id);
             if (!deleted)
             {
                 return NotFound();
@@ -73,13 +65,13 @@ namespace Application.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
-        public IActionResult Put([FromBody] User request)
+        public IActionResult Put([FromBody] Ads request)
         {
-            if (!_userService.Update(request))
+            if (!_adsService.Update(request))
             { 
                 return NotFound();
             }
             return Ok("Ok");
         }
-    }
+    
 }

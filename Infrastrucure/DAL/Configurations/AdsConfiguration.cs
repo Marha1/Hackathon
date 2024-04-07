@@ -13,7 +13,6 @@ public class AdsConfiguration:IEntityTypeConfiguration<Ads>
             .IsRequired().HasMaxLength(100);
         builder.Property(x => x.Created).IsRequired();
         builder.Property(x => x.ExpirationDate).IsRequired();
-
-
+        builder.Property(x => x.UserId).IsRequired();
     }
 }

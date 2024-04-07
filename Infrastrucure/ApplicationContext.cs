@@ -7,7 +7,7 @@ namespace Infrastrucure
 {
     public class AplicationContext:DbContext
     {
-        public DbSet<User>Persons { get; set; }
+        public DbSet<User>Users { get; set; }
         public DbSet<Ads>Ads { get; set; }
 
 

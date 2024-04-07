@@ -12,8 +12,13 @@ public class User: BaseEntity
             string errorMessages = string.Join("\n", validationResult.Errors);
             throw new ValidationException(errorMessages);
         }
-        Name = name;
-        Admin = isAdmin;
+        this.Name = name;
+        this.Admin = isAdmin;
+    }
+
+    public User()
+    {
+        
     }
     public string Name { get; set; }
     public bool Admin { get; set; }

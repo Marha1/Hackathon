@@ -1,5 +1,6 @@
 ﻿using Domain.Enities;
 using Infrastrucure.DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastrucure.DAL.Repository;
 /// <summary>
@@ -15,7 +16,17 @@ public class UserRepository : BaseRepository<User>,IUserRepository<User>
 
     public User FindById(Guid id)
     {
-        var person = _context.Persons.FirstOrDefault(x => x.Id == id);
-        return person;
+        
+        var users = _context.Users.Include(x=>x.Ads).FirstOrDefault(x => x.Id == id);
+        if (users is not null)
+        {
+            return users;
+        }
+
+        if (_context.Users.FirstOrDefault(x => x.Id == id) is not null)
+        {
+            return _context.Users.FirstOrDefault(x => x.Id == id);
+        }
+        return null;
     }
 }

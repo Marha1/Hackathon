@@ -10,7 +10,6 @@ public class UserService:IUserService
 {
     private readonly IUserRepository<User> _userRepository;
     private readonly IMapper _mapper;
-    private IUserService _userServiceImplementation;
 
     public UserService(IUserRepository<User> userRepository, IMapper mapper)
     {
@@ -22,6 +21,8 @@ public class UserService:IUserService
         var user =_userRepository.FindById(id);
         return _mapper.Map<UserGetByIdResponse>(user);
     }
+
+    
 
     public UserGetAllResponse GetAll()
     {

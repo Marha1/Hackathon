@@ -1,20 +1,23 @@
+using Application.Mapping;
+using Application.Services.Implementations;
 using Application.Services.Interfaces;
 using Domain.Enities;
-using Infrastructure.Dal.Interfaces;
 using Infrastrucure;
-using Infrastrucure.DAL.Repository;
+using Infrastrucure.DAL.Interfaces;
+using Infrastrucure.DAL.Repository; 
 using Microsoft.EntityFrameworkCore;
-
 
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.json");
-builder.Services.AddDbContext<AplicationContext>(options =>
+builder.Services.AddDbContext<AplicationContext>(options => 
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<IBaseRepository<User>, UserRepository>();
-builder.Services.AddScoped<IBaseService<User>, IUserService>();
+builder.Services.AddScoped<IUserRepository<User>, UserRepository>();
+builder.Services.AddScoped<IAdsRepository<Ads>, AdsRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddAutoMapper(typeof(AdsMappingProfile));
+builder.Services.AddAutoMapper(typeof(UserMappingProfile));
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var app = builder.Build();

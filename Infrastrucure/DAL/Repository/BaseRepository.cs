@@ -43,4 +43,6 @@ public abstract class BaseRepository<T>:IBaseRepository<T> where T : class
     {
         return _context.Set<T>().ToList();
     }
+
+    
 }
