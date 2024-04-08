@@ -1,35 +1,28 @@
-
+using System.Collections.Generic;
+using Application.Dtos;
 using Application.Dtos.UserDto;
 using AutoMapper;
 using Domain.Enities;
-namespace Application.Mapping;
-
-/// <summary>
-/// Маппинг для Person
-/// </summary>
-public class UserMappingProfile : Profile
+namespace Application.Mapping
 {
-    public UserMappingProfile()
+    public class UserMappingProfile : Profile
     {
-        CreateMap<User, UserGetByIdResponse>()
-            .ForMember(dest => dest.Name,
-                opt => opt.MapFrom(src => src.Name));
+        public UserMappingProfile()
+        {
+            // Маппинг для получения пользователя по его идентификатору
+            CreateMap<User, UserGetByIdResponse>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
 
-        CreateMap<User, UserGetAllResponse>()
-            .ForMember(dest => dest.Name,
-                opt => opt.MapFrom(src => src.Name))
-            .ForMember(dest => dest.isAdmins,
-                opt => opt.MapFrom(src => src.Admin));
+            // Маппинг для получения всех пользователей
+            CreateMap<User, BaseUserDto>();
 
-        CreateMap<User, UserCreateResponse>()
-            .ForMember(dest => dest.Name,
-                opt => opt.MapFrom(src => src.Name)).ForMember(dest => dest.isAdmins,
-                opt => opt.MapFrom(src => src.Admin));
+            CreateMap<User, UserCreateResponse>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.isAdmins, opt => opt.MapFrom(src => src.Admin));
 
-        CreateMap<User, UserUpdateResponse>()
-            .ForMember(dest => dest.Name,
-                opt => opt.MapFrom(src => src.Name)).ForMember(dest => dest.isAdmins,
-                opt => opt.MapFrom(src => src.Admin));
-       
+            CreateMap<User, UserUpdateResponse>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.isAdmins, opt => opt.MapFrom(src => src.Admin));
+        }
     }
 }

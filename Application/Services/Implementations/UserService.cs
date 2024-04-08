@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+using Application.Dtos;
 using Application.Dtos.UserDto;
 using Application.Services.Interfaces;
 using AutoMapper;
@@ -22,19 +25,31 @@ public class UserService:IUserService
         return _mapper.Map<UserGetByIdResponse>(user);
     }
 
-    
-
     public UserGetAllResponse GetAll()
     {
         var users = _userRepository.GetAll();
-         return _mapper.Map<UserGetAllResponse>(users);
+
+        var userDTOs = users.Select(user => new BaseUserDto
+        {
+            Id = user.Id,
+            Name = user.Name,
+            isAdmins = user.Admin
+        });
+
+        var response = new UserGetAllResponse
+        {
+            Users = userDTOs
+        };
+
+        return response;
     }
 
     public UserCreateResponse Add(User entity)
     {
-        var users = _mapper.Map<User>(entity);
-        _userRepository.Add(users);
-        return _mapper.Map<UserCreateResponse>(users);
+        var userToAdd = _mapper.Map<User>(entity);
+        _userRepository.Add(userToAdd);
+        var addedUser = _userRepository.FindById(userToAdd.Id);
+        return _mapper.Map<UserCreateResponse>(addedUser);
     }
 
     

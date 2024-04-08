@@ -1,3 +1,4 @@
+using System;
 using Domain.Enities;
 
 namespace Application.Dtos.AdsDto;

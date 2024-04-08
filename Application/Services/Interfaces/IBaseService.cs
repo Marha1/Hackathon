@@ -1,5 +1,5 @@
+using System;
 using Application.Dtos.UserDto;
-using Domain.Enities;
 namespace Application.Services.Interfaces;
 public interface IBaseService<TEntity> 
 {

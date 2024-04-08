@@ -1,6 +1,6 @@
 namespace Application.Dtos.UserDto;
 
 /// <summary>
-/// Дто ответа на создание Person
+/// Дто ответа на создание User
 /// </summary>
-public abstract class UserCreateResponse : BaseUserDto;
+public  class UserCreateResponse : BaseUserDto;

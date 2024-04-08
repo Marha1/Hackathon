@@ -4,6 +4,10 @@ using FluentValidation.Results;
 namespace Domain.Enities;
 public class User: BaseEntity
 {
+    
+    public string Name { get; set; }
+    public bool Admin { get; set; }
+    public ICollection<Ads> Ads { get; set; }
     public User(string name,bool isAdmin)
     {
         var validationResult = Validate();
@@ -18,11 +22,8 @@ public class User: BaseEntity
 
     public User()
     {
-        
+            
     }
-    public string Name { get; set; }
-    public bool Admin { get; set; }
-    public ICollection<Ads> Ads { get; set; }
     public ValidationResult Validate()
     {
         var validator = new UserValidation();

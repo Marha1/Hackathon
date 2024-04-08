@@ -6,7 +6,9 @@ using Microsoft.Extensions.Configuration;
 namespace Infrastrucure.DAL.Repository;
 
 public class AdsRepository:BaseRepository<Ads>,IAdsRepository<Ads>
-{
+{/// <summary>
+ /// Todo:Передать параметр из appsettings
+ /// </summary>
     private readonly AplicationContext _context;
     private readonly int _maxAdsPerUser;
     public AdsRepository(AplicationContext context,IConfiguration configuration):base(context)

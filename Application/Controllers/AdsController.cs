@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using Application.Services.Interfaces;
 using Domain.Enities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Application.Controllers;
+namespace Application1.Controllers;
 
 public class AdsController: ControllerBase
 {
@@ -18,7 +20,7 @@ public class AdsController: ControllerBase
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
-        public IActionResult AddUser([FromBody] Ads request)
+        public IActionResult AddAds([FromBody] Ads request)
         {
             if (!_adsService.TryToPublic(request.UserId))
             {
@@ -36,7 +38,7 @@ public class AdsController: ControllerBase
         [ProducesResponseType(typeof(IEnumerable<Ads>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult GetUser()
+        public IActionResult GetAds()
         {
             var responce = _adsService.GetAll();
             if (responce == null)
@@ -50,7 +52,7 @@ public class AdsController: ControllerBase
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
-        public IActionResult DeleteUser([FromBody] Ads request)
+        public IActionResult Delete([FromBody] Ads request)
         {
             var deleted = _adsService.Delete(request.Id);
             if (!deleted)

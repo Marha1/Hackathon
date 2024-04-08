@@ -4,8 +4,12 @@ using Application.Services.Interfaces;
 using Domain.Enities;
 using Infrastrucure;
 using Infrastrucure.DAL.Interfaces;
-using Infrastrucure.DAL.Repository; 
+using Infrastrucure.DAL.Repository;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,4 +33,5 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseHttpsRedirection();
+app.MapControllers();
 app.Run();
