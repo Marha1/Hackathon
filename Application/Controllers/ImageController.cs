@@ -12,6 +12,24 @@ public class ImageController: ControllerBase
     {
         _imageService = imageService;
     }
+    [HttpGet("GetImage")]
+    public IActionResult GetImage(string fileName)
+    {
+        string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+            
+        string imagePath = Path.Combine(folderPath, fileName);
+            
+        if (!System.IO.File.Exists(imagePath))
+        {
+            return NotFound();
+        }
+            
+        byte[] imageBytes = System.IO.File.ReadAllBytes(imagePath);
+            
+        string mimeType = "image/jpeg";
+
+        return File(imageBytes, mimeType);
+    }
 
     [HttpPost("Add")]
     [ProducesResponseType(StatusCodes.Status200OK)]
