@@ -61,6 +61,21 @@ public class AdsController: ControllerBase
             return Ok("Ok");
         }
 
+        [HttpGet("FindByText")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult GetUserByText([FromQuery] string AdsText)
+        {
+            var user = _adsService.FindByText(AdsText);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
+        
+
         [HttpPut("Update")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

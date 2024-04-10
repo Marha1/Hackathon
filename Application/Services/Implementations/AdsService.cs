@@ -21,18 +21,20 @@ public class AdsService: IAdsService
         _user = user;
     }
 
-    public AdsGetAllResponce GetAll()
+    public IEnumerable<AdsGetAllResponce> GetAll()
     {
-        var ads = _adsRepository.GetAll();
-        var users = _user.GetAll(); 
-
-        var adsDto = new AdsGetAllResponce
+        var ads = _adsRepository.GetAll().Select(ad =>
         {
-            Ads = ads,
-            User = _mapper.Map<IEnumerable<User>, IEnumerable<BaseUserDto>>(users) 
-        };
+            var adDto = new AdsGetAllResponce()
+            {
+                Id = ad.Id,
+               Text = ad.Text,
+                UserId = ad.UserId,
+            };
+            return adDto;
+        });
 
-        return adsDto;
+        return ads;
     }
 
     public AdsCreateResponse Add(Ads entity)
@@ -46,10 +48,17 @@ public class AdsService: IAdsService
         _adsRepository.Add(entity);
         user.Ads.Add(entity);
         return _mapper.Map<AdsCreateResponse>(entity);
+        
     }
+    
 
     public bool Update(Ads entity)
     {
+        if (entity is null)
+        {
+            return false;
+        }
+        entity.UserId = Guid.Empty;
         return _adsRepository.Update(entity);
     }
 
@@ -60,5 +69,29 @@ public class AdsService: IAdsService
     public bool TryToPublic(Guid id)
     {
         return _adsRepository.CanUserPublish(id);
+    }
+
+    public Ads GetById(Guid id)
+    {
+        return _adsRepository.GetById(id);
+    }
+
+    public IEnumerable<AdsGetByTextResponce> FindByText(string Text)
+    {
+        var ads=_adsRepository.GetAll().Where(ad => ad.Text == Text);
+        if (ads is null)
+        {
+            return null;
+        }
+        var adsDtoList = ads.Select(ad => new AdsGetByTextResponce
+        {
+            Id = ad.Id,
+            Text = ad.Text,
+            Number = ad.Number,
+            Created = ad.Created,
+            ExpirationDate = ad.ExpirationDate,
+            Rating = ad.Rating
+        }).ToList();
+        return adsDtoList;
     }
 }

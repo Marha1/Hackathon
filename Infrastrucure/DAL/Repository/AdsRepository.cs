@@ -30,4 +30,16 @@ public class AdsRepository:BaseRepository<Ads>,IAdsRepository<Ads>
 
         return user.Ads.Count < _maxAdsPerUser;
     }
+
+    public Ads GetById(Guid id)
+    {
+        var ads = _context.Ads.FirstOrDefault(x => x.Id == id);
+        if (ads is null)
+        {
+            return null;
+        }
+
+        return ads;
+        
+    }
 }

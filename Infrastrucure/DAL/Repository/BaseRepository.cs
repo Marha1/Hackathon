@@ -17,13 +17,26 @@ public abstract class BaseRepository<T>:IBaseRepository<T> where T : class
     }
     public bool Update(T entity)
     {
-        
         var findEntity = _context.Set<T>().FirstOrDefault(e => e.Equals(entity));
         if (findEntity != null)
         {
+            var objectTypes = _context.Model.FindEntityType(typeof(T));
+            var props = objectTypes.GetProperties();
             
-            _context.Entry(findEntity).CurrentValues.SetValues(entity);
+            foreach (var property in props)
+            {
+                var entityvalue = property.PropertyInfo.GetValue(entity);
+                
+                    if (entityvalue is not null && entityvalue is  not Guid ) 
+                    {
+                        property.PropertyInfo.SetValue(findEntity,entityvalue);
+                        _context.Entry(findEntity).CurrentValues.SetValues(entityvalue);
+                        
+                    }
+            }
             _context.SaveChanges();
+            
+           
             return true;
         }
         return false;

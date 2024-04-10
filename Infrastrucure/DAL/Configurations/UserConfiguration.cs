@@ -9,8 +9,8 @@ public class UserConfiguration: IEntityTypeConfiguration<User>
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Name)
             .IsRequired().HasMaxLength(100);
-        builder.HasMany(u => u.Ads) 
-            .WithOne(a => a.User) 
-            .HasForeignKey(fk => fk.UserId); 
+        builder.HasMany(u => u.Ads)
+            .WithOne(a => a.User)
+            .HasForeignKey(fk => fk.UserId).OnDelete(DeleteBehavior.Cascade);
     }
 }

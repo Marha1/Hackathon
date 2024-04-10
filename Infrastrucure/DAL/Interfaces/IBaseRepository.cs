@@ -7,7 +7,7 @@
     public interface IBaseRepository<T>
     {
         void Add(T entity);
-        bool Update (T entity);
+        bool Update(T entity);
         bool Delete (Guid id);
         IEnumerable<T> GetAll();
     }

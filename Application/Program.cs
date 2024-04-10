@@ -20,6 +20,7 @@ builder.Services.AddScoped<IUserRepository<User>, UserRepository>();
 builder.Services.AddScoped<IAdsRepository<Ads>, AdsRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAdsService, AdsService>();
+builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddAutoMapper(typeof(AdsMappingProfile));
 builder.Services.AddAutoMapper(typeof(UserMappingProfile));
 builder.Services.AddControllers();
