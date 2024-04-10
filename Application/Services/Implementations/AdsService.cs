@@ -94,4 +94,46 @@ public class AdsService: IAdsService
         }).ToList();
         return adsDtoList;
     }
+
+    public IEnumerable<AdsDescendingFiltrationResponce> Filtration()
+    {
+        var ads = _adsRepository.GetAll()
+            .OrderByDescending(n => n.Rating)
+            .Where(n => n.Rating != 0);
+        if (ads is null)
+        {
+            return null;
+        }
+        var adsDtoList = ads.Select(ad => new AdsDescendingFiltrationResponce
+        {
+            Id = ad.Id,
+            Text = ad.Text,
+            Number = ad.Number,
+            Created = ad.Created,
+            ExpirationDate = ad.ExpirationDate,
+            Rating = ad.Rating
+        }).ToList();
+        return adsDtoList;
+    }
+
+    public IEnumerable<AdsAscendingFiltrationResponce> AscendingFiltration()
+    {
+        var ads = _adsRepository.GetAll()
+            .OrderBy(n => n.Rating)
+            .Where(n => n.Rating != 0);
+        if (ads is null)
+        {
+            return null;
+        }
+        var adsDtoList = ads.Select(ad => new AdsAscendingFiltrationResponce
+        {
+            Id = ad.Id,
+            Text = ad.Text,
+            Number = ad.Number,
+            Created = ad.Created,
+            ExpirationDate = ad.ExpirationDate,
+            Rating = ad.Rating
+        }).ToList();
+        return adsDtoList;
+    }
 }

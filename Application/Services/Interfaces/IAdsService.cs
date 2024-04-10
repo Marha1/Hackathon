@@ -14,4 +14,6 @@ public interface IAdsService
     public bool TryToPublic(Guid id);
     public Ads GetById(Guid id);
     public IEnumerable<AdsGetByTextResponce> FindByText(string Name);
+    public IEnumerable<AdsDescendingFiltrationResponce> Filtration();
+    public IEnumerable<AdsAscendingFiltrationResponce> AscendingFiltration();
 }

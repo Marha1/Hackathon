@@ -61,6 +61,18 @@ namespace Application.Mapping
                 .ForMember(dest => dest.Created, opt => opt.MapFrom(src => src.Created))
                 .ForMember(dest => dest.ExpirationDate, opt => opt.MapFrom(src => src.ExpirationDate));
 
+            CreateMap<Ads, AdsDescendingFiltrationResponce>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                                                                                                                       .ForMember(dest => dest.Number, opt => opt.MapFrom(src => src.Number))
+                                                                                                                       .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Text))
+                                                                                                                       .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Rating))
+                                                                                                                       .ForMember(dest => dest.Created, opt => opt.MapFrom(src => src.Created))
+                                                                                                                       .ForMember(dest => dest.ExpirationDate, opt => opt.MapFrom(src => src.ExpirationDate));
+            CreateMap<Ads, AdsAscendingFiltrationResponce>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Number, opt => opt.MapFrom(src => src.Number))
+                .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Text))
+                .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Rating))
+                .ForMember(dest => dest.Created, opt => opt.MapFrom(src => src.Created))
+                .ForMember(dest => dest.ExpirationDate, opt => opt.MapFrom(src => src.ExpirationDate));
         }
     }
 }

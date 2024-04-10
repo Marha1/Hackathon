@@ -60,6 +60,32 @@ public class AdsController: ControllerBase
             }
             return Ok("Ok");
         }
+        [HttpGet("DescendingFiltration")]
+        [ProducesResponseType(typeof(IEnumerable<Ads>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult DescendingFiltration()
+        {
+            var responce = _adsService.Filtration();
+            if (responce == null)
+            {
+                return NotFound();
+            }
+            return Ok(responce);
+        }
+        [HttpGet("AscendingFiltration")]
+        [ProducesResponseType(typeof(IEnumerable<Ads>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult AscendingFiltration()
+        {
+            var responce = _adsService.AscendingFiltration();
+            if (responce == null)
+            {
+                return NotFound();
+            }
+            return Ok(responce);
+        }
 
         [HttpGet("FindByText")]
         [ProducesResponseType(StatusCodes.Status200OK)]
