@@ -3,6 +3,8 @@ using Infrastrucure.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
+using Microsoft.Extensions.Configuration.Json;
+
 namespace Infrastrucure.DAL.Repository;
 
 public class AdsRepository:BaseRepository<Ads>,IAdsRepository<Ads>
@@ -14,6 +16,8 @@ public class AdsRepository:BaseRepository<Ads>,IAdsRepository<Ads>
     public AdsRepository(AplicationContext context,IConfiguration configuration):base(context)
     {
         this._context = context;
+        _maxAdsPerUser = Convert.ToInt32(configuration["AppSettings:MaxAdsPerUser"]);
+
     }
 
     public bool CanUserPublish(Guid userId)

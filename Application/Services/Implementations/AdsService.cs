@@ -1,6 +1,6 @@
 using System;
+using Application.Dtos;
 using Application.Dtos.AdsDto;
-using Application.Dtos.UserDto;
 using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Enities;
@@ -23,19 +23,29 @@ public class AdsService: IAdsService
 
     public AdsGetAllResponce GetAll()
     {
-        var ads=_adsRepository.GetAll();
-        return _mapper.Map<AdsGetAllResponce>(ads);
+        var ads = _adsRepository.GetAll();
+        var users = _user.GetAll(); 
+
+        var adsDto = new AdsGetAllResponce
+        {
+            Ads = ads,
+            User = _mapper.Map<IEnumerable<User>, IEnumerable<BaseUserDto>>(users) 
+        };
+
+        return adsDto;
     }
 
     public AdsCreateResponse Add(Ads entity)
     {
+        
         var user = _user.FindById(entity.UserId);
         if (user is null)
         {
             return null;
         }
+        _adsRepository.Add(entity);
         user.Ads.Add(entity);
-        return _mapper.Map<AdsCreateResponse>(user);
+        return _mapper.Map<AdsCreateResponse>(entity);
     }
 
     public bool Update(Ads entity)
@@ -47,9 +57,6 @@ public class AdsService: IAdsService
     {
         return _adsRepository.Delete(id); 
     }
-
-   
-
     public bool TryToPublic(Guid id)
     {
         return _adsRepository.CanUserPublish(id);

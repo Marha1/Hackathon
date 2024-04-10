@@ -1,10 +1,9 @@
-using System.Collections.Generic;
 using Application.Services.Interfaces;
 using Domain.Enities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Application1.Controllers;
+namespace Application.Controllers;
+[Route("api/[controller]")]
 
 public class AdsController: ControllerBase
 {

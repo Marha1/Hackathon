@@ -32,6 +32,11 @@ public class AdsValidation: AbstractValidator<Ads>
             .NotNull().WithMessage(x => string.Format(ValidationMessages.IsNullOrEmpty, nameof(x.ExpirationDate)));
         RuleFor(x => x.ExpirationDate).Cascade(FluentValidation.CascadeMode.StopOnFirstFailure).IsInEnum()
             .WithMessage(x => string.Format(ValidationMessages.IsValidType, nameof(x.ExpirationDate)));
+        RuleFor(x => x.UserId).Cascade(FluentValidation.CascadeMode.StopOnFirstFailure).IsInEnum()
+            .WithMessage(x => string.Format(ValidationMessages.IsValidType, nameof(x.UserId)));
+        RuleFor(x => x.UserId).Cascade(FluentValidation.CascadeMode.StopOnFirstFailure).NotEmpty().WithMessage(x => string.Format(ValidationMessages.IsNullOrEmpty, nameof(x.UserId)));
+        RuleFor(x => x.UserId).Cascade(FluentValidation.CascadeMode.StopOnFirstFailure).NotNull().WithMessage(x => string.Format(ValidationMessages.IsNullOrEmpty, nameof(x.UserId)));
+        
     }
     
 }

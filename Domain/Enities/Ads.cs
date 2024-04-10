@@ -4,7 +4,7 @@ using ValidationResult = FluentValidation.Results.ValidationResult;
 namespace Domain.Enities;
 public class Ads: BaseEntity
 {
-    public Ads(int number,string text,int rating,DateTime created,DateTime expirationDate)
+    public Ads(int number,string text,int rating,DateTime created,DateTime expirationDate,Guid userId)
     {
         var validationResult = Validate();
         if (!validationResult.IsValid)
@@ -17,6 +17,12 @@ public class Ads: BaseEntity
         Rating = rating;
         Created = created;
         ExpirationDate = expirationDate;
+        UserId = userId;
+        Images = new List<string>();
+    }
+    public Ads()
+    {
+            
     }
 
     public int Number { get; set; } 
@@ -24,7 +30,8 @@ public class Ads: BaseEntity
     public int Rating { get; set; }
     public DateTime Created { get; set; }
     public DateTime ExpirationDate { get; set; }
-    public string Images { get; set; }
+    public IEnumerable<string>? Images { get; set; }
+    
     public Guid UserId { get; set; }
     public User User { get; set; }
     public ValidationResult Validate()
