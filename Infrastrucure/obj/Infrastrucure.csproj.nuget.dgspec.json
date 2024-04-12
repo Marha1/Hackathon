@@ -65,6 +65,10 @@
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[9.0.0-preview.2, )"
+            },
+            "RecaptchaNet": {
+              "target": "Package",
+              "version": "[3.1.0, )"
             }
           },
           "imports": [
@@ -148,6 +152,10 @@
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[9.0.0-preview.2, )"
+            },
+            "RecaptchaNet": {
+              "target": "Package",
+              "version": "[3.1.0, )"
             }
           },
           "imports": [

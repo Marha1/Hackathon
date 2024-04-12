@@ -13,22 +13,14 @@ public class ImageController: ControllerBase
         _imageService = imageService;
     }
     [HttpGet("GetImage")]
-    public IActionResult GetImage(string fileName)
+    public async Task<IActionResult> GetImage(string fileName)
     {
-        string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
-            
-        string imagePath = Path.Combine(folderPath, fileName);
-            
-        if (!System.IO.File.Exists(imagePath))
+        var fileContentResult = await _imageService.GetImage(fileName);
+        if (fileContentResult == null)
         {
-            return NotFound();
+            return NotFound(); 
         }
-            
-        byte[] imageBytes = System.IO.File.ReadAllBytes(imagePath);
-            
-        string mimeType = "image/jpeg";
-
-        return File(imageBytes, mimeType);
+        return fileContentResult;
     }
 
     [HttpPost("Add")]
@@ -45,6 +37,16 @@ public class ImageController: ControllerBase
 
         return Ok();
 
+    }
+    [HttpGet("GetImageResize")]
+    public async Task<IActionResult> GetImageResize([FromQuery]string fileName,int widht,int hight)
+    {
+        var fileContentResult = await _imageService.ResizeAndSaveImage(fileName,widht,hight);
+        if (fileContentResult == null)
+        {
+            return NotFound(); 
+        }
+        return fileContentResult;
     }
 
 }

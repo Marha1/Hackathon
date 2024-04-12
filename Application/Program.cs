@@ -2,14 +2,13 @@ using Application.Mapping;
 using Application.Services.Implementations;
 using Application.Services.Interfaces;
 using Domain.Enities;
+using Domain.Primitives;
 using Infrastrucure;
 using Infrastrucure.DAL.Interfaces;
 using Infrastrucure.DAL.Repository;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using reCAPTCHA.AspNetCore;
+using SixLabors.ImageSharp;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +19,13 @@ builder.Services.AddScoped<IUserRepository<User>, UserRepository>();
 builder.Services.AddScoped<IAdsRepository<Ads>, AdsRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAdsService, AdsService>();
-builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddControllers();
+builder.Services.AddScoped<IGoogleReCaptchaService, GoogleReCaptchaService>();
+builder.Services.Configure<GoogleReCaptchaSettings>(builder.Configuration.GetSection("GoogleReCaptchaSettings"));
+builder.Services.AddHttpClient("GoogleReCaptchaSettings", c =>
+{
+    c.BaseAddress = new Uri("https://www.google.com/recaptcha/api/");
+});
 builder.Services.AddAutoMapper(typeof(AdsMappingProfile));
 builder.Services.AddAutoMapper(typeof(UserMappingProfile));
 builder.Services.AddControllers();

@@ -7,26 +7,34 @@ namespace Application.Controllers;
 
 public class AdsController: ControllerBase
 {
+    
     private readonly IAdsService _adsService;
+    private readonly IGoogleReCaptchaService _captchaService;
 
-        public AdsController(IAdsService adsService)
+        public AdsController(IAdsService adsService,IGoogleReCaptchaService captchaService)
         {
             this._adsService = adsService;
+            _captchaService = captchaService;
         }
 
         [HttpPost("Add")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-
-        public IActionResult AddAds([FromBody] Ads request)
+        public async Task<IActionResult> AddAds([FromBody] Ads request, [FromQuery] string token)
         {
-            if (!_adsService.TryToPublic(request.UserId))
+            var captchaResponse = await _captchaService.VerifyRecaptcha(token);
+            if (!captchaResponse.Success)
             {
-                return BadRequest("Пользователь достиг максимальное кол-во объявлений");
+                return BadRequest("Ошибка при проверке капчи.");
             }
 
-            if (_adsService.Add(request)==null)
+            if (!_adsService.TryToPublic(request.UserId))
+            {
+                return BadRequest("Пользователь достиг максимального количества объявлений");
+            }
+
+            if (_adsService.Add(request) == null)
             {
                 return BadRequest("Пользователь не найден");
             }

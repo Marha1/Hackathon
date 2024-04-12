@@ -69,6 +69,14 @@
       "PackagePath": "staticwebassets\\images\\f721528f-03ab-44bb-95ac-127b4ff2e93b.png"
     },
     {
+      "Id": "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Application\\wwwroot\\images\\resize\\75c33f0d-c308-4e75-abf8-374c9e868173.png",
+      "PackagePath": "staticwebassets\\images\\resize\\75c33f0d-c308-4e75-abf8-374c9e868173.png"
+    },
+    {
+      "Id": "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Application\\wwwroot\\images\\resize\\cd98770b-cc5e-455f-86e0-175e500d4cea.png",
+      "PackagePath": "staticwebassets\\images\\resize\\cd98770b-cc5e-455f-86e0-175e500d4cea.png"
+    },
+    {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Application.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

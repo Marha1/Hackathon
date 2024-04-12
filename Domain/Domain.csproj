@@ -15,6 +15,7 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0-preview.2" />
+      <PackageReference Include="RecaptchaNet" Version="3.1.0" />
     </ItemGroup>
 
 </Project>

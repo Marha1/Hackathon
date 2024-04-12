@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "t58gxSi4obIrkdn5D/43agD9E54vEquzLNSmXLKp37A=",
+  "Hash": "S4yNPW8OfpqRJOX5cHNDVi1izJ8ugS1OKmPJuGvDOig=",
   "Source": "Application",
   "BasePath": "_content/Application",
   "Mode": "Default",
@@ -338,6 +338,44 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\f721528f-03ab-44bb-95ac-127b4ff2e93b.png"
+    },
+    {
+      "Identity": "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Application\\wwwroot\\images\\resize\\75c33f0d-c308-4e75-abf8-374c9e868173.png",
+      "SourceId": "Application",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Application\\wwwroot\\",
+      "BasePath": "_content/Application",
+      "RelativePath": "images/resize/75c33f0d-c308-4e75-abf8-374c9e868173.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\resize\\75c33f0d-c308-4e75-abf8-374c9e868173.png"
+    },
+    {
+      "Identity": "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Application\\wwwroot\\images\\resize\\cd98770b-cc5e-455f-86e0-175e500d4cea.png",
+      "SourceId": "Application",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Application\\wwwroot\\",
+      "BasePath": "_content/Application",
+      "RelativePath": "images/resize/cd98770b-cc5e-455f-86e0-175e500d4cea.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\resize\\cd98770b-cc5e-455f-86e0-175e500d4cea.png"
     }
   ]
 }

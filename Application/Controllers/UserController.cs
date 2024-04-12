@@ -11,22 +11,30 @@ namespace Application1.Controllers
         public class UserController : ControllerBase
         {
             private readonly IUserService _userService;
-
-            public UserController(IUserService userService)
+            private readonly IGoogleReCaptchaService _captchaService;
+            public UserController(IUserService userService,IGoogleReCaptchaService captchaService)
             {
                 this._userService = userService;
+                _captchaService = captchaService;
             }
             [HttpPost("Add")]
             [ProducesResponseType(StatusCodes.Status200OK)]
+            [ProducesResponseType(StatusCodes.Status400BadRequest)]
             [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-
-            public IActionResult AddUser([FromBody] User request)
+            public async Task<IActionResult> AddUser([FromBody] User request, [FromQuery] string recaptchaToken)
             {
-                if (_userService.Add(request)==null)
+                var captchaResponse = await _captchaService.VerifyRecaptcha(recaptchaToken);
+                if (!captchaResponse.Success)
                 {
-                    return BadRequest();
+                    return BadRequest("Ошибка при проверке капчи.");
                 }
-                return Ok();
+
+                if (_userService.Add(request) == null)
+                {
+                    return BadRequest("Не удалось добавить пользователя.");
+                }
+
+                return Ok("Пользователь успешно добавлен.");
             }
 
             [HttpGet("Get")]
