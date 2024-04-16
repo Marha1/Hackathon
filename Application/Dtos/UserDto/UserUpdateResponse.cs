@@ -1,5 +1,3 @@
-using System;
-
 namespace Application.Dtos.UserDto;
 
 /// <summary>

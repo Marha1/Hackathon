@@ -1,13 +1,9 @@
-using System;
-using Application.Dtos;
 using Application.Dtos.AdsDto;
 using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Enities;
-using Infrastrucure.DAL.Interfaces;
-
+using Infrastructure.DAL.Interfaces;
 namespace Application.Services.Implementations;
-
 public class AdsService: IAdsService
 {
     private readonly IAdsRepository<Ads> _adsRepository;
@@ -21,20 +17,20 @@ public class AdsService: IAdsService
         _user = user;
     }
 
-    public IEnumerable<AdsGetAllResponce> GetAll()
+    public async Task<IEnumerable<AdsGetAllResponce>>GetAll()
     {
-        var ads = _adsRepository.GetAll().Select(ad =>
+        var ads = await _adsRepository.GetAll();
+        var adDtos = ads.Select(ad =>
         {
             var adDto = new AdsGetAllResponce()
             {
                 Id = ad.Id,
-               Text = ad.Text,
+                Text = ad.Text,
                 UserId = ad.UserId,
             };
             return adDto;
         });
-
-        return ads;
+        return adDtos;
     }
 
     public AdsCreateResponse Add(Ads entity)
@@ -76,14 +72,17 @@ public class AdsService: IAdsService
         return _adsRepository.GetById(id);
     }
 
-    public IEnumerable<AdsGetByTextResponce> FindByText(string Text)
+    public async Task<IEnumerable<AdsGetByTextResponce>> FindByText(string Text)
     {
-        var ads=_adsRepository.GetAll().Where(ad => ad.Text == Text);
-        if (ads is null)
+        var ads = await _adsRepository.GetAll();
+    
+        if (ads == null)
         {
             return null;
         }
-        var adsDtoList = ads.Select(ad => new AdsGetByTextResponce
+    
+        var adsWhere = ads.Where(ad => ad.Text == Text).ToList();
+        var adsDtoList = adsWhere.Select(ad => new AdsGetByTextResponce
         {
             Id = ad.Id,
             Text = ad.Text,
@@ -92,6 +91,7 @@ public class AdsService: IAdsService
             ExpirationDate = ad.ExpirationDate,
             Rating = ad.Rating
         }).ToList();
+    
         return adsDtoList;
     }
 

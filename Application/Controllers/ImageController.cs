@@ -1,6 +1,5 @@
 using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-
 namespace Application.Controllers;
 
 [Route("api/[controller]")]

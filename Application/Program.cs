@@ -1,16 +1,12 @@
+using Application.Dtos.GoogleReCaptchaDto;
 using Application.Mapping;
 using Application.Services.Implementations;
 using Application.Services.Interfaces;
 using Domain.Enities;
-using Domain.Primitives;
-using Infrastrucure;
-using Infrastrucure.DAL.Interfaces;
-using Infrastrucure.DAL.Repository;
+using Infrastructure;
+using Infrastructure.DAL.Interfaces;
+using Infrastructure.DAL.Repository;
 using Microsoft.EntityFrameworkCore;
-using reCAPTCHA.AspNetCore;
-using SixLabors.ImageSharp;
-
-
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.json");
 builder.Services.AddDbContext<AplicationContext>(options => 
@@ -32,7 +28,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

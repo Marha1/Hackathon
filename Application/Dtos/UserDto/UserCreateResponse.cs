@@ -1,5 +1,4 @@
 namespace Application.Dtos.UserDto;
-
 /// <summary>
 /// Дто ответа на создание User
 /// </summary>

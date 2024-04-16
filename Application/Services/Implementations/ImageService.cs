@@ -1,11 +1,9 @@
 using Application.Services.Interfaces;
 using Domain.Enities;
-using Infrastrucure.DAL.Interfaces;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Infrastructure.DAL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
-
 namespace Application.Services.Implementations;
 
 public class ImageService:IImageService

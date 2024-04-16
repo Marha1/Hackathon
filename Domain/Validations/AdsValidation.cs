@@ -3,7 +3,6 @@ using Domain.Primitives;
 using FluentValidation;
 
 namespace Domain.Validations;
-
 public class AdsValidation: AbstractValidator<Ads>
 {
     public AdsValidation()

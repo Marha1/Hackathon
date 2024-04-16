@@ -1,3 +1,5 @@
+using Application.Dtos.GoogleReCaptchaDto;
+
 namespace Application.Services.Interfaces;
 
 public interface IGoogleReCaptchaService

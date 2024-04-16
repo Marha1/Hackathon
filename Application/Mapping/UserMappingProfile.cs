@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Application.Dtos;
 using Application.Dtos.UserDto;
 using AutoMapper;
 using Domain.Enities;
@@ -9,11 +7,9 @@ namespace Application.Mapping
     {
         public UserMappingProfile()
         {
-            // Маппинг для получения пользователя по его идентификатору
             CreateMap<User, UserGetByIdResponse>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
 
-            // Маппинг для получения всех пользователей
             CreateMap<User, BaseUserDto>();
 
             CreateMap<User, UserCreateResponse>()

@@ -1,8 +1,6 @@
 using Application.Dtos.AdsDto;
 using AutoMapper;
 using Domain.Enities;
-
-
 namespace Application.Mapping
 {
     public class AdsMappingProfile : Profile

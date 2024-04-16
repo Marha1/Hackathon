@@ -1,22 +1,17 @@
 using Application.Services.Interfaces;
 using Domain.Enities;
 using Microsoft.AspNetCore.Mvc;
-
 namespace Application.Controllers;
 [Route("api/[controller]")]
-
 public class AdsController: ControllerBase
 {
-    
     private readonly IAdsService _adsService;
     private readonly IGoogleReCaptchaService _captchaService;
-
         public AdsController(IAdsService adsService,IGoogleReCaptchaService captchaService)
         {
-            this._adsService = adsService;
+            _adsService = adsService;
             _captchaService = captchaService;
         }
-
         [HttpPost("Add")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -28,7 +23,6 @@ public class AdsController: ControllerBase
             {
                 return BadRequest("Ошибка при проверке капчи.");
             }
-
             if (!_adsService.TryToPublic(request.UserId))
             {
                 return BadRequest("Пользователь достиг максимального количества объявлений");
@@ -40,14 +34,13 @@ public class AdsController: ControllerBase
             }
             return Ok();
         }
-
         [HttpGet("Get")]
         [ProducesResponseType(typeof(IEnumerable<Ads>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult GetAds()
+        public async Task<IActionResult> GetAds()
         {
-            var responce = _adsService.GetAll();
+            var responce = await _adsService.GetAll();
             if (responce == null)
             {
                 return NotFound();
@@ -58,7 +51,6 @@ public class AdsController: ControllerBase
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-
         public IActionResult Delete([FromBody] Ads request)
         {
             var deleted = _adsService.Delete(request.Id);
@@ -94,7 +86,6 @@ public class AdsController: ControllerBase
             }
             return Ok(responce);
         }
-
         [HttpGet("FindByText")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -108,13 +99,10 @@ public class AdsController: ControllerBase
             }
             return Ok(user);
         }
-        
-
         [HttpPut("Update")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-
         public IActionResult Put([FromBody] Ads request)
         {
             if (!_adsService.Update(request))
@@ -123,5 +111,4 @@ public class AdsController: ControllerBase
             }
             return Ok("Ok");
         }
-    
 }

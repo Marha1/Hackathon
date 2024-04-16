@@ -1,9 +1,7 @@
 using Domain.Enities;
 using Domain.Primitives;
 using FluentValidation;
-
 namespace Domain.Validations;
-
 public class UserValidation:AbstractValidator<User>
 {
     public UserValidation()

@@ -2827,7 +2827,7 @@
           "bin/placeholder/Domain.dll": {}
         }
       },
-      "Infrastrucure/1.0.0": {
+      "Infrastructure/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
@@ -2838,10 +2838,10 @@
           "RecaptchaNet": "3.1.0"
         },
         "compile": {
-          "bin/placeholder/Infrastrucure.dll": {}
+          "bin/placeholder/Infrastructure.dll": {}
         },
         "runtime": {
-          "bin/placeholder/Infrastrucure.dll": {}
+          "bin/placeholder/Infrastructure.dll": {}
         }
       }
     }
@@ -8360,17 +8360,17 @@
       "path": "../Domain/Domain.csproj",
       "msbuildProject": "../Domain/Domain.csproj"
     },
-    "Infrastrucure/1.0.0": {
+    "Infrastructure/1.0.0": {
       "type": "project",
-      "path": "../Infrastrucure/Infrastrucure.csproj",
-      "msbuildProject": "../Infrastrucure/Infrastrucure.csproj"
+      "path": "../Infrastructure/Infrastructure.csproj",
+      "msbuildProject": "../Infrastructure/Infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
       "AutoMapper >= 13.0.1",
       "Domain >= 1.0.0",
-      "Infrastrucure >= 1.0.0",
+      "Infrastructure >= 1.0.0",
       "Microsoft.AspNet.WebApi.Client >= 6.0.0",
       "Microsoft.AspNetCore.OpenApi >= 8.0.3",
       "Microsoft.EntityFrameworkCore >= 9.0.0-preview.2.24128.4",
@@ -8384,24 +8384,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Hi-Tech\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\timyr\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Application\\Application.csproj",
+      "projectUniqueName": "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Application\\Application.csproj",
       "projectName": "Application",
-      "projectPath": "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Application\\Application.csproj",
-      "packagesPath": "C:\\Users\\Hi-Tech\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Application\\obj\\",
+      "projectPath": "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Application\\Application.csproj",
+      "packagesPath": "C:\\Users\\timyr\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Application\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Hi-Tech\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\timyr\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -8415,11 +8410,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Domain\\Domain.csproj": {
-              "projectPath": "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Domain\\Domain.csproj"
+            "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Domain\\Domain.csproj": {
+              "projectPath": "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Domain\\Domain.csproj"
             },
-            "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Infrastrucure\\Infrastrucure.csproj": {
-              "projectPath": "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Infrastrucure\\Infrastrucure.csproj"
+            "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Infrastructure\\Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Infrastructure\\Infrastructure.csproj"
             }
           }
         }
@@ -8500,7 +8495,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
       }
     }
   },

@@ -1,5 +1,4 @@
 namespace Application.Dtos.AdsDto;
-
 public class AdsDescendingFiltrationResponce
 {
     public Guid Id { get;set; }

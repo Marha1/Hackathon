@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Application.Services.Interfaces;
+﻿using Application.Services.Interfaces;
 using Domain.Enities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Application1.Controllers
+namespace Application.Controllers
     {
         [Route("api/[controller]")]
         public class UserController : ControllerBase
@@ -14,7 +11,7 @@ namespace Application1.Controllers
             private readonly IGoogleReCaptchaService _captchaService;
             public UserController(IUserService userService,IGoogleReCaptchaService captchaService)
             {
-                this._userService = userService;
+                _userService = userService;
                 _captchaService = captchaService;
             }
             [HttpPost("Add")]
@@ -36,7 +33,6 @@ namespace Application1.Controllers
 
                 return Ok("Пользователь успешно добавлен.");
             }
-
             [HttpGet("Get")]
             [ProducesResponseType(typeof(IEnumerable<User>), StatusCodes.Status200OK)]
             [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -63,8 +59,6 @@ namespace Application1.Controllers
                 }
                 return Ok(user);
             }
-
-            
             [HttpDelete("Delete")]
             [ProducesResponseType(StatusCodes.Status200OK)]
             [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -79,12 +73,10 @@ namespace Application1.Controllers
                 }
                 return Ok("Ok");
             }
-
             [HttpPut("Update")]
             [ProducesResponseType(StatusCodes.Status200OK)]
             [ProducesResponseType(StatusCodes.Status400BadRequest)]
             [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-
             public IActionResult Put([FromBody] User request)
             {
                 if (!_userService.Update(request))

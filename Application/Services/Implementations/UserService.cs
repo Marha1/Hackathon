@@ -1,11 +1,8 @@
-using System;
-using System.Linq;
-using Application.Dtos;
 using Application.Dtos.UserDto;
 using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Enities;
-using Infrastrucure.DAL.Interfaces;
+using Infrastructure.DAL.Interfaces;
 
 namespace Application.Services.Implementations;
 
@@ -25,9 +22,9 @@ public class UserService:IUserService
         return _mapper.Map<UserGetByIdResponse>(user);
     }
 
-    public UserGetAllResponse GetAll()
+    public async Task<UserGetAllResponse> GetAll()
     {
-        var users = _userRepository.GetAll();
+        var users = await _userRepository.GetAll();
 
         var userDTOs = users.Select(user => new BaseUserDto
         {

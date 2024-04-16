@@ -1,6 +1,9 @@
+using Application.Dtos.GoogleReCaptchaDto;
 using Application.Services.Interfaces;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+
+namespace Application.Services.Implementations;
 
 public class GoogleReCaptchaService : IGoogleReCaptchaService
 {
@@ -35,16 +38,4 @@ public class GoogleReCaptchaService : IGoogleReCaptchaService
             return new GoogleReCaptchaResponse { Success = false, ErrorMessage = "Ошибка при запросе к серверу Google reCAPTCHA." };
         }
     }
-}
-
-public class GoogleReCaptchaSettings
-{
-    public string SiteKey { get; set; }
-    public string SecretKey { get; set; }
-}
-
-public class GoogleReCaptchaResponse
-{
-    public bool Success { get; set; }
-    public string ErrorMessage { get; set; }
 }

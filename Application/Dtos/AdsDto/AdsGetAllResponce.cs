@@ -1,5 +1,3 @@
-using Domain.Enities;
-
 namespace Application.Dtos.AdsDto;
 
 public class AdsGetAllResponce
