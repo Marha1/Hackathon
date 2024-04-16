@@ -1,8 +1,10 @@
+using Domain.Enities;
+
 namespace Infrastructure.DAL.Interfaces;
 
-public interface IAdsRepository<Ads> : IBaseRepository<Ads>
+public interface IAdsRepository<Ads> : IBaseRepository<Ads> where Ads : BaseEntity
 {
     public bool CanUserPublish(Guid userId);
-    public Ads GetById(Guid id);
+    public Task<Ads> GetById(Guid id);
 }
    

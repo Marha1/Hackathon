@@ -1,32 +1,25 @@
-﻿using Domain.Enities;
-using Infrastructure.DAL.Interfaces;
+﻿using Infrastructure.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Domain.Enities;
 
-namespace Infrastructure.DAL.Repository;
-/// <summary>
-/// Реализация расширяющего интерфейса IUserRepository
-/// </summary>
-public class UserRepository : BaseRepository<User>,IUserRepository<User>
+namespace Infrastructure.DAL.Repository
 {
-    private readonly AplicationContext _context;
-    public UserRepository(AplicationContext context):base (context)
+    /// <summary>
+    /// Реализация расширяющего интерфейса IUserRepository
+    /// </summary>
+    public class UserRepository : BaseRepository<User>, IUserRepository<User>
     {
-        this._context = context;
-    }
+        private readonly AplicationContext _context;
 
-    public User FindById(Guid id)
-    {
-        
-        var users = _context.Users.Include(x=>x.Ads).FirstOrDefault(x => x.Id == id);
-        if (users is not null)
+        public UserRepository(AplicationContext context) : base(context)
         {
-            return users;
+            _context = context;
         }
 
-        if (_context.Users.FirstOrDefault(x => x.Id == id) is not null)
+        public async Task<User> FindById(Guid id)
         {
-            return _context.Users.FirstOrDefault(x => x.Id == id);
+            var user = await _context.Users.Include(x => x.Ads).FirstOrDefaultAsync(x => x.Id == id);
+            return user;
         }
-        return null;
     }
 }

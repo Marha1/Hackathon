@@ -1,4 +1,5 @@
 using Application.Dtos.UserDto;
+using Application.Dtos.UserDto.Request;
 using AutoMapper;
 using Domain.Enities;
 namespace Application.Mapping
@@ -19,6 +20,21 @@ namespace Application.Mapping
             CreateMap<User, UserUpdateResponse>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.isAdmins, opt => opt.MapFrom(src => src.Admin));
+            
+            CreateMap<UserCreateResponse, User>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Admin, opt => opt.MapFrom(src => src.isAdmins));
+
+            CreateMap<UserDeleteRequest, User>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
+            
+            CreateMap<UserUpdateRequest, User>()
+                .ForMember(dest=>dest.Id,opt=>opt.MapFrom(src=>src.Id))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Admin, opt => opt.MapFrom(src => src.isAdmins));
+
+
         }
     }
+    
 }

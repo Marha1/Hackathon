@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Application\\Application.csproj": {}
+    "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Application\\Application.csproj": {}
   },
   "projects": {
-    "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Application\\Application.csproj": {
+    "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Application\\Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Application\\Application.csproj",
+        "projectUniqueName": "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Application\\Application.csproj",
         "projectName": "Application",
-        "projectPath": "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Application\\Application.csproj",
-        "packagesPath": "C:\\Users\\timyr\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Application\\obj\\",
+        "projectPath": "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Application\\Application.csproj",
+        "packagesPath": "C:\\Users\\Hi-Tech\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Application\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\timyr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Hi-Tech\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,11 +32,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Domain\\Domain.csproj"
+              "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Domain\\Domain.csproj"
               },
-              "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Infrastructure\\Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Infrastructure\\Infrastructure.csproj"
+              "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Infrastructure\\Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Infrastructure\\Infrastructure.csproj"
               }
             }
           }
@@ -113,21 +117,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Domain\\Domain.csproj": {
+    "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Domain\\Domain.csproj",
-        "packagesPath": "C:\\Users\\timyr\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Domain\\obj\\",
+        "projectPath": "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Domain\\Domain.csproj",
+        "packagesPath": "C:\\Users\\Hi-Tech\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Domain\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\timyr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Hi-Tech\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -196,21 +204,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Infrastructure\\Infrastructure.csproj": {
+    "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Infrastructure\\Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\timyr\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Infrastructure\\obj\\",
+        "projectPath": "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Infrastructure\\Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\Hi-Tech\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\timyr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Hi-Tech\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -224,8 +236,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\timyr\\RiderProjects\\Hackathon\\Domain\\Domain.csproj"
+              "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\Hi-Tech\\RiderProjects\\Hackathon\\Domain\\Domain.csproj"
               }
             }
           }
@@ -279,7 +291,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

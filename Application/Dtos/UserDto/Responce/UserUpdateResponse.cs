@@ -5,8 +5,5 @@ namespace Application.Dtos.UserDto;
 /// </summary>
 public class UserUpdateResponse : BaseUserDto
 {
-    /// <summary>
-    /// Идентификатор
-    /// </summary>
-    public Guid Id { get; init; }
+    
 }

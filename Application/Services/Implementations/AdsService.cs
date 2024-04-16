@@ -1,139 +1,108 @@
 using Application.Dtos.AdsDto;
+using Application.Dtos.AdsDto.Request;
+using Application.Dtos.AdsDto.Responce;
 using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Enities;
 using Infrastructure.DAL.Interfaces;
-namespace Application.Services.Implementations;
-public class AdsService: IAdsService
+
+namespace Application.Services.Implementations
 {
-    private readonly IAdsRepository<Ads> _adsRepository;
-    private readonly IUserRepository<User> _user;
-    private readonly IMapper _mapper;
-
-    public AdsService(IAdsRepository<Ads> adsRepository, IMapper mapper,IUserRepository<User> user)
+    public class AdsService : IAdsService
     {
-        _adsRepository = adsRepository;
-        _mapper = mapper;
-        _user = user;
-    }
+        private readonly IAdsRepository<Ads> _adsRepository;
+        private readonly IUserRepository<User> _userRepository;
+        private readonly IMapper _mapper;
 
-    public async Task<IEnumerable<AdsGetAllResponce>>GetAll()
-    {
-        var ads = await _adsRepository.GetAll();
-        var adDtos = ads.Select(ad =>
+        public AdsService(IAdsRepository<Ads> adsRepository, IMapper mapper, IUserRepository<User> userRepository)
         {
-            var adDto = new AdsGetAllResponce()
+            _adsRepository = adsRepository;
+            _mapper = mapper;
+            _userRepository = userRepository;
+        }
+
+        public async Task<IEnumerable<AdsGetAllResponce>> GetAll()
+        {
+            var ads = await _adsRepository.GetAll();
+            var adDtos = ads.Select(ad => _mapper.Map<AdsGetAllResponce>(ad));
+            return adDtos;
+        }
+
+        public async Task<AdsCreateResponse> Add(AdsCreateRequest entity)
+        {
+            var adsToAdd = _mapper.Map<Ads>(entity);
+            var user = await _userRepository.FindById(entity.UserId);
+            if (user is null)
             {
-                Id = ad.Id,
-                Text = ad.Text,
-                UserId = ad.UserId,
-            };
-            return adDto;
-        });
-        return adDtos;
-    }
+                return null;
+            }
+            await _adsRepository.Add(adsToAdd);
 
-    public AdsCreateResponse Add(Ads entity)
-    {
-        
-        var user = _user.FindById(entity.UserId);
-        if (user is null)
-        {
-            return null;
+             user.Ads.Add(adsToAdd);
+
+            return _mapper.Map<AdsCreateResponse>(adsToAdd);
         }
-        _adsRepository.Add(entity);
-        user.Ads.Add(entity);
-        return _mapper.Map<AdsCreateResponse>(entity);
-        
-    }
-    
 
-    public bool Update(Ads entity)
-    {
-        if (entity is null)
+        public async Task<bool> Update(AdsUpdateRequest entity)
         {
-            return false;
+            var adsToAdd = _mapper.Map<Ads>(entity);
+            if (entity is null)
+            {
+                return false;
+            }
+            adsToAdd.UserId = Guid.Empty;
+            return await _adsRepository.Update(adsToAdd);
         }
-        entity.UserId = Guid.Empty;
-        return _adsRepository.Update(entity);
-    }
 
-    public bool Delete(Guid id)
-    {
-        return _adsRepository.Delete(id); 
-    }
-    public bool TryToPublic(Guid id)
-    {
-        return _adsRepository.CanUserPublish(id);
-    }
-
-    public Ads GetById(Guid id)
-    {
-        return _adsRepository.GetById(id);
-    }
-
-    public async Task<IEnumerable<AdsGetByTextResponce>> FindByText(string Text)
-    {
-        var ads = await _adsRepository.GetAll();
-    
-        if (ads == null)
+        public async Task<bool> Delete(Guid id)
         {
-            return null;
+            return await _adsRepository.Delete(id);
         }
-    
-        var adsWhere = ads.Where(ad => ad.Text == Text).ToList();
-        var adsDtoList = adsWhere.Select(ad => new AdsGetByTextResponce
-        {
-            Id = ad.Id,
-            Text = ad.Text,
-            Number = ad.Number,
-            Created = ad.Created,
-            ExpirationDate = ad.ExpirationDate,
-            Rating = ad.Rating
-        }).ToList();
-    
-        return adsDtoList;
-    }
 
-    public IEnumerable<AdsDescendingFiltrationResponce> Filtration()
-    {
-        var ads = _adsRepository.GetAll()
-            .OrderByDescending(n => n.Rating)
-            .Where(n => n.Rating != 0);
-        if (ads is null)
+        public bool TryToPublic(Guid id)
         {
-            return null;
+            return _adsRepository.CanUserPublish(id);
         }
-        var adsDtoList = ads.Select(ad => new AdsDescendingFiltrationResponce
-        {
-            Id = ad.Id,
-            Text = ad.Text,
-            Number = ad.Number,
-            Created = ad.Created,
-            ExpirationDate = ad.ExpirationDate,
-            Rating = ad.Rating
-        }).ToList();
-        return adsDtoList;
-    }
 
-    public IEnumerable<AdsAscendingFiltrationResponce> AscendingFiltration()
-    {
-        var ads = _adsRepository.GetAll()
-            .OrderBy(n => n.Rating)
-            .Where(n => n.Rating != 0);
-        if (ads is null)
+        public async Task<Ads> GetById(Guid id)
         {
-            return null;
+            return await _adsRepository.GetById(id);
         }
-        var adsDtoList = ads.Select(ad => new AdsAscendingFiltrationResponce
+
+        public async Task<IEnumerable<AdsGetByTextResponce>> FindByText(string text)
         {
-            Id = ad.Id,
-            Text = ad.Text,
-            Number = ad.Number,
-            Created = ad.Created,
-            ExpirationDate = ad.ExpirationDate,
-            Rating = ad.Rating
-        }).ToList();
-        return adsDtoList;
+            var ads = await _adsRepository.GetAll();
+            if (ads is null)
+            {
+                return null;
+            }
+            var adsWhere = ads.Where(ad => ad.Text == text).ToList();
+            var adsDtoList = adsWhere.Select(ad => _mapper.Map<AdsGetByTextResponce>(ad)).ToList();
+            return adsDtoList;
+        }
+
+        public async Task<IEnumerable<AdsDescendingFiltrationResponce>> Filtration()
+        {
+            var ads = await _adsRepository.GetAll();
+            if (ads is null)
+            {
+                return null;
+            }
+            var adsOrder = ads.OrderByDescending(n => n.Rating).Where(n => n.Rating != 0);
+            var adsDtoList = adsOrder.Select(ad => _mapper.Map<AdsDescendingFiltrationResponce>(ad)).ToList();
+            return adsDtoList;
+        }
+
+        public async Task<IEnumerable<AdsAscendingFiltrationResponce>> AscendingFiltration()
+        {
+            var ads = await _adsRepository.GetAll();
+            if (ads is null)
+            {
+                return null;
+            }
+            var adsOrder = ads.OrderBy(n => n.Rating).Where(n => n.Rating != 0);
+            var adsDtoList = adsOrder.Select(ad => _mapper.Map<AdsAscendingFiltrationResponce>(ad)).ToList();
+            return adsDtoList;
+        }
     }
 }

@@ -6,12 +6,6 @@ public class Ads: BaseEntity
 {
     public Ads(int number,string text,int rating,DateTime created,DateTime expirationDate,Guid userId)
     {
-        var validationResult = Validate();
-        if (!validationResult.IsValid)
-        {
-            string errorMessages = string.Join("\n", validationResult.Errors);
-            throw new ValidationException(errorMessages);
-        }
         Number = number;
         Text = text;
         Rating = rating;
@@ -19,10 +13,16 @@ public class Ads: BaseEntity
         ExpirationDate = expirationDate;
         UserId = userId;
         Images = new List<string>();
+
+        var validationResult = Validate();
+        if (!validationResult.IsValid)
+        {
+            string errorMessages = string.Join("\n", validationResult.Errors);
+            throw new ValidationException(errorMessages);
+        }
     }
     public Ads()
     {
-            
     }
     public override bool Equals(object obj)
     {

@@ -1,28 +1,34 @@
+using Application.Dtos.AdsDto.Request;
 using Application.Services.Interfaces;
 using Domain.Enities;
 using Microsoft.AspNetCore.Mvc;
-namespace Application.Controllers;
-[Route("api/[controller]")]
-public class AdsController: ControllerBase
+
+namespace Application.Controllers
 {
-    private readonly IAdsService _adsService;
-    private readonly IGoogleReCaptchaService _captchaService;
-        public AdsController(IAdsService adsService,IGoogleReCaptchaService captchaService)
+    [Route("api/[controller]")]
+    public class AdsController : ControllerBase
+    {
+        private readonly IAdsService _adsService;
+        private readonly IGoogleReCaptchaService _captchaService;
+
+        public AdsController(IAdsService adsService, IGoogleReCaptchaService captchaService)
         {
             _adsService = adsService;
             _captchaService = captchaService;
         }
+
         [HttpPost("Add")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> AddAds([FromBody] Ads request, [FromQuery] string token)
+        public async Task<IActionResult> AddAds([FromBody] AdsCreateRequest request, [FromQuery] string token)
         {
             var captchaResponse = await _captchaService.VerifyRecaptcha(token);
             if (!captchaResponse.Success)
             {
                 return BadRequest("Ошибка при проверке капчи.");
             }
+
             if (!_adsService.TryToPublic(request.UserId))
             {
                 return BadRequest("Пользователь достиг максимального количества объявлений");
@@ -32,8 +38,10 @@ public class AdsController: ControllerBase
             {
                 return BadRequest("Пользователь не найден");
             }
+            
             return Ok();
         }
+
         [HttpGet("Get")]
         [ProducesResponseType(typeof(IEnumerable<Ads>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -45,70 +53,82 @@ public class AdsController: ControllerBase
             {
                 return NotFound();
             }
+
             return Ok(responce);
         }
+
         [HttpDelete("Delete")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult Delete([FromBody] Ads request)
+        public async Task<IActionResult> Delete([FromBody] AdsDeleteRequest request)
         {
-            var deleted = _adsService.Delete(request.Id);
+            var deleted = await _adsService.Delete(request.Id);
             if (!deleted)
             {
                 return NotFound();
             }
+
             return Ok("Ok");
         }
+
         [HttpGet("DescendingFiltration")]
         [ProducesResponseType(typeof(IEnumerable<Ads>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult DescendingFiltration()
+        public async Task<IActionResult> DescendingFiltration()
         {
-            var responce = _adsService.Filtration();
+            var responce = await _adsService.Filtration();
             if (responce == null)
             {
                 return NotFound();
             }
+
             return Ok(responce);
         }
+
         [HttpGet("AscendingFiltration")]
         [ProducesResponseType(typeof(IEnumerable<Ads>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult AscendingFiltration()
+        public async Task<IActionResult> AscendingFiltration()
         {
-            var responce = _adsService.AscendingFiltration();
+            var responce = await _adsService.AscendingFiltration();
             if (responce == null)
             {
                 return NotFound();
             }
+
             return Ok(responce);
         }
+
         [HttpGet("FindByText")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult GetUserByText([FromQuery] string AdsText)
+        public async Task<IActionResult> GetUserByText([FromQuery] string adsText)
         {
-            var user = _adsService.FindByText(AdsText);
-            if (user == null)
+            var ads = await _adsService.FindByText(adsText);
+            if (ads == null)
             {
                 return NotFound();
             }
-            return Ok(user);
+
+            return Ok(ads);
         }
+
         [HttpPut("Update")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult Put([FromBody] Ads request)
+        public async Task<IActionResult> Put([FromBody] AdsUpdateRequest request)
         {
-            if (!_adsService.Update(request))
-            { 
+            if (!await _adsService.Update(request))
+            {
                 return NotFound();
             }
+
             return Ok("Ok");
         }
+    }
 }

@@ -1,10 +1,11 @@
 using Application.Dtos.UserDto;
+using Application.Dtos.UserDto.Request;
+
 namespace Application.Services.Interfaces;
 public interface IBaseService<TEntity> 
 {
-    
     public Task<UserGetAllResponse> GetAll();
-    public UserCreateResponse Add(TEntity entity);
-    public bool Update(TEntity entity);
-    public bool Delete(Guid id);
+    public Task<UserCreateResponse> Add(UserCreateRequest entity);
+    public Task<bool> Update(UserUpdateRequest entity);
+    public Task<bool> Delete(Guid id);
 }

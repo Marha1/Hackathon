@@ -16,9 +16,10 @@ public class User: BaseEntity
             string errorMessages = string.Join("\n", validationResult.Errors);
             throw new ValidationException(errorMessages);
         }
-        this.Name = name;
-        this.Admin = isAdmin;
+        Name = name;
+        Admin = isAdmin;
     }
+    
     public override bool Equals(object obj)
     {
         if (obj == null || !(obj is User))
@@ -36,8 +37,8 @@ public class User: BaseEntity
 
     public User()
     {
-            
-    }
+    } 
+    
     public ValidationResult Validate()
     {
         var validator = new UserValidation();

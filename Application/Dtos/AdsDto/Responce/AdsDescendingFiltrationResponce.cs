@@ -1,5 +1,5 @@
-namespace Application.Dtos.AdsDto;
-public class AdsUpdateResponce
+namespace Application.Dtos.AdsDto.Responce;
+public class AdsDescendingFiltrationResponce
 {
     public Guid Id { get;set; }
     public int Number { get; set; } 

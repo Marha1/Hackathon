@@ -1,6 +1,5 @@
-namespace Application.Dtos.AdsDto;
-
-public class AdsGetAllResponce
+namespace Application.Dtos.AdsDto.Responce;
+public class AdsUpdateResponce
 {
     public Guid Id { get;set; }
     public int Number { get; set; } 
@@ -8,6 +7,4 @@ public class AdsGetAllResponce
     public int Rating { get; set; }
     public DateTime Created { get; set; }
     public DateTime ExpirationDate { get; set; }
-    public List<string> Images { get; set; }
-    public Guid UserId { get; set; }
 }

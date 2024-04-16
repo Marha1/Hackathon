@@ -1,66 +1,59 @@
 using Application.Dtos.UserDto;
+using Application.Dtos.UserDto.Request;
 using Application.Services.Interfaces;
 using AutoMapper;
-using Domain.Enities;
 using Infrastructure.DAL.Interfaces;
+using Domain.Enities;
 
-namespace Application.Services.Implementations;
-
-public class UserService:IUserService
+namespace Application.Services.Implementations
 {
-    private readonly IUserRepository<User> _userRepository;
-    private readonly IMapper _mapper;
-
-    public UserService(IUserRepository<User> userRepository, IMapper mapper)
+    public class UserService : IUserService
     {
-        _userRepository = userRepository;
-        _mapper = mapper;
-    }
-    public UserGetByIdResponse FindById(Guid id)
-    {
-        var user =_userRepository.FindById(id);
-        return _mapper.Map<UserGetByIdResponse>(user);
-    }
+        private readonly IUserRepository<User> _userRepository;
+        private readonly IMapper _mapper;
 
-    public async Task<UserGetAllResponse> GetAll()
-    {
-        var users = await _userRepository.GetAll();
-
-        var userDTOs = users.Select(user => new BaseUserDto
+        public UserService(IUserRepository<User> userRepository, IMapper mapper)
         {
-            Id = user.Id,
-            Name = user.Name,
-            isAdmins = user.Admin
-        });
+            _userRepository = userRepository;
+            _mapper = mapper;
+        }
 
-        var response = new UserGetAllResponse
+        public async Task<UserGetByIdResponse> FindById(Guid id)
         {
-            Users = userDTOs
-        };
+            var user = await _userRepository.FindById(id);
+            return _mapper.Map<UserGetByIdResponse>(user);
+        }
 
-        return response;
-    }
+        public async Task<UserGetAllResponse> GetAll()
+        {
+            var users = await _userRepository.GetAll();
+            var userDtOs = users.Select(user => _mapper.Map<BaseUserDto>(user));
 
-    public UserCreateResponse Add(User entity)
-    {
-        var userToAdd = _mapper.Map<User>(entity);
-        _userRepository.Add(userToAdd);
-        var addedUser = _userRepository.FindById(userToAdd.Id);
-        return _mapper.Map<UserCreateResponse>(addedUser);
-    }
+            var response = new UserGetAllResponse
+            {
+                Users = userDtOs.ToList()
+            };
 
-    
+            return response;
+        }
 
-    public bool Update(User entity)
-    {
-        var users = _mapper.Map<User>(entity);
+        public async Task<UserCreateResponse> Add(UserCreateRequest entity)
+        {
+            var userToAdd = _mapper.Map<User>(entity);
+            await _userRepository.Add(userToAdd);
+            var addedUser = await _userRepository.FindById(userToAdd.Id);
+            return _mapper.Map<UserCreateResponse>(addedUser);
+        }
         
-        return  _userRepository.Update(users);
-    }
+        public async Task<bool> Update(UserUpdateRequest entity)
+        {
+            var users = _mapper.Map<User>(entity);
+            return await _userRepository.Update(users);
+        }
 
-
-    public bool Delete(Guid id)
-    {
-        return _userRepository.Delete(id);
+        public async Task<bool> Delete(Guid id)
+        {
+            return await _userRepository.Delete(id);
+        }
     }
 }

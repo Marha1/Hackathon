@@ -1,18 +1,18 @@
-using Application.Dtos.AdsDto;
+using Application.Dtos.AdsDto.Request;
+using Application.Dtos.AdsDto.Responce;
 using Domain.Enities;
 
 namespace Application.Services.Interfaces;
-
 public interface IAdsService
 {
       
     public Task<IEnumerable<AdsGetAllResponce>> GetAll();
-    public AdsCreateResponse Add(Ads entity);
-    public bool Update(Ads entity);
-    public bool Delete(Guid id);
+    public Task<AdsCreateResponse> Add(AdsCreateRequest entity);
+    public Task<bool> Update(AdsUpdateRequest entity);
+    public Task<bool> Delete(Guid id);
     public bool TryToPublic(Guid id);
-    public Ads GetById(Guid id);
+    public Task<Ads> GetById(Guid id);
     public Task<IEnumerable<AdsGetByTextResponce>> FindByText(string Name);
-    public IEnumerable<AdsDescendingFiltrationResponce> Filtration();
-    public IEnumerable<AdsAscendingFiltrationResponce> AscendingFiltration();
+    public Task<IEnumerable<AdsDescendingFiltrationResponce>> Filtration();
+    public Task<IEnumerable<AdsAscendingFiltrationResponce>> AscendingFiltration();
 }

@@ -4,8 +4,8 @@ using Infrastructure.DAL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
-namespace Application.Services.Implementations;
 
+namespace Application.Services.Implementations;
 public class ImageService:IImageService
 {
     private readonly IAdsRepository<Ads> _adsRepository;
@@ -37,34 +37,30 @@ public class ImageService:IImageService
     public async Task<string> UploadImages(IFormFile file,Guid adsId)
     {
         var ImageName = await SaveImages(file);
-        var ads = _adsRepository.GetById(adsId);
+        var ads = await _adsRepository.GetById(adsId); 
         if (ads is null)
         {
             return null;
         }
-
         if (ads.Images == null)
         {
             ads.Images = new List<string>();
         }
         ads.Images.Add(ImageName);
-        _adsRepository.Update(ads);
-         return ImageName;
+        await _adsRepository.Update(ads); 
+        return ImageName;
     }
-
-    public async Task<FileContentResult> GetImage(string fileName)
+    public Task<FileContentResult> GetImage(string fileName)
     {
         string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
-            
         string imagePath = Path.Combine(folderPath, fileName);
-            
         if (!System.IO.File.Exists(imagePath))
         {
-            return null;
+            return Task.FromResult<FileContentResult>(null);
         }
         byte[] imageBytes = System.IO.File.ReadAllBytes(imagePath);
         string mimeType = "image/jpeg";
-        return new FileContentResult(imageBytes, mimeType);
+        return Task.FromResult(new FileContentResult(imageBytes, mimeType));
     }
     public async Task<FileContentResult> ResizeAndSaveImage(string fileName, int width, int height)
     {
@@ -73,7 +69,6 @@ public class ImageService:IImageService
         {
             return null;
         }
-        
         using (var stream = new MemoryStream(originalImageResult.FileContents))
         using (var image = Image.Load(stream))
         {
@@ -85,7 +80,6 @@ public class ImageService:IImageService
                 await image.SaveAsJpegAsync(outputStream);
                 resizedImageBytes = outputStream.ToArray();
             }
-
             string mimeType = "image/jpeg";
             string pathFolder = Path.Combine("wwwroot", "images","resize");
             Directory.CreateDirectory(pathFolder);
@@ -94,7 +88,6 @@ public class ImageService:IImageService
             {
                 await image.SaveAsJpegAsync(outputStream);
             }
-
             return new FileContentResult(resizedImageBytes, mimeType);
         }
     }
