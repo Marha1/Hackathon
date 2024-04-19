@@ -1,40 +1,38 @@
-namespace Domain.Enities
+namespace Domain.Enities;
+
+/// <summary>
+///     Базовый абстрактный класс сущности.
+/// </summary>
+public abstract class BaseEntity
 {
     /// <summary>
-    /// Базовый абстрактный класс сущности.
+    ///     Id сущности.
     /// </summary>
-    public abstract class BaseEntity
+    public Guid Id { get; set; }
+
+    /// <summary>
+    ///     Переопределение метода для сравнения с другим объектом.
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns></returns>
+    public override bool Equals(object? obj)
     {
-        /// <summary>
-        /// Уникальный идентификатор сущности.
-        /// </summary>
-        public Guid Id { get; set; }
+        if (obj is null)
+            return false;
+        if (obj is not BaseEntity entity)
+            return false;
+        if (entity.Id != Id)
+            return false;
 
-        /// <summary>
-        /// Переопределение метода для сравнения с другим объектом.
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public override bool Equals(object? obj)
-        {
-            if (obj == null)
-                return false;
-            else if (obj is not BaseEntity entity)
-                return false;
-            else if (entity.Id != Id)
-                return false;
+        return true;
+    }
 
-            return true;
-            //return GetHashCode() == entity.GetHashCode();
-        }
-
-        /// <summary>
-        /// Переопределение метода для получения хэш-кода объекта.
-        /// </summary>
-        /// <returns></returns>
-        public override int GetHashCode()
-        {
-            return Id.GetHashCode();
-        }
+    /// <summary>
+    ///     Переопределение метода для получения хэш-кода объекта.
+    /// </summary>
+    /// <returns></returns>
+    public override int GetHashCode()
+    {
+        return Id.GetHashCode();
     }
 }

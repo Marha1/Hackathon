@@ -1,32 +1,31 @@
-using Application.Dtos.AppSettings;
 using Application.Dtos.GoogleReCaptchaDto;
 using Application.Mapping;
+using Application.Middleware;
 using Application.Services.Implementations;
 using Application.Services.Interfaces;
 using Domain.Enities;
 using Infrastructure;
+using Infrastructure.DAL.Configurations;
 using Infrastructure.DAL.Interfaces;
 using Infrastructure.DAL.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.json");
-builder.Services.AddDbContext<AplicationContext>(options => 
+builder.Services.AddDbContext<AplicationContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IUserRepository<User>, UserRepository>();
 builder.Services.AddScoped<IAdsRepository<Ads>, AdsRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAdsService, AdsService>();
-builder.Services.AddControllers();
 builder.Services.AddScoped<IGoogleReCaptchaService, GoogleReCaptchaService>();
 builder.Services.Configure<GoogleReCaptchaSettings>(builder.Configuration.GetSection("GoogleReCaptchaSettings"));
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
-builder.Services.AddHttpClient("GoogleReCaptchaSettings", c =>
-{
-    c.BaseAddress = new Uri("https://www.google.com/recaptcha/api/");
-});
+builder.Services.AddHttpClient("GoogleReCaptchaSettings",
+    c => { c.BaseAddress = new Uri("https://www.google.com/recaptcha/api/"); });
 builder.Services.AddAutoMapper(typeof(AdsMappingProfile), typeof(UserMappingProfile));
 builder.Services.AddControllers();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var app = builder.Build();
@@ -38,6 +37,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseRouting();
+app.UseMiddleware<AdsValidationMiddleware>(); // Перенесено в нужное место
+app.UseAuthorization();
+
 app.MapControllers();
+
 app.Run();

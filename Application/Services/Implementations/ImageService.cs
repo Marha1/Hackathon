@@ -6,69 +6,85 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 
 namespace Application.Services.Implementations;
-public class ImageService:IImageService
+
+/// <summary>
+///     Реализация cервиса для работы с изображениями.
+/// </summary>
+public class ImageService : IImageService
 {
     private readonly IAdsRepository<Ads> _adsRepository;
-    public ImageService(IAdsRepository<Ads>adsRepository)
+
+    public ImageService(IAdsRepository<Ads> adsRepository)
     {
         _adsRepository = adsRepository;
     }
+
+    /// <summary>
+    ///     Сохраняет изображение.
+    /// </summary>
+    /// <param name="file">Файл изображения.</param>
+    /// <returns>Путь к сохраненному изображению.</returns>
     public async Task<string> SaveImages(IFormFile file)
     {
-        if (file is null)
-        {
-            return null;
-        }
+        if (file is null) return null;
 
-        string FileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-        string pathFolder = Path.Combine("wwwroot", "images");
+        var FileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+        var pathFolder = Path.Combine("wwwroot", "images");
         Directory.CreateDirectory(pathFolder);
 
-        string Filepath = Path.Combine(pathFolder,FileName);
+        var Filepath = Path.Combine(pathFolder, FileName);
 
-        using (var stream = new FileStream(Filepath,FileMode.Create))
+        using (var stream = new FileStream(Filepath, FileMode.Create))
         {
             await file.CopyToAsync(stream);
         }
 
         return Path.Combine("images", FileName);
     }
-    
-    public async Task<string> UploadImages(IFormFile file,Guid adsId)
+
+    /// <summary>
+    ///     Загружает изображение и связывает его с объявлением.
+    /// </summary>
+    /// <param name="file">Файл изображения.</param>
+    /// <param name="adsId">Id объявления.</param>
+    /// <returns>Имя загруженного изображения.</returns>
+    public async Task<string> UploadImages(IFormFile file, Guid adsId)
     {
         var ImageName = await SaveImages(file);
-        var ads = await _adsRepository.GetById(adsId); 
-        if (ads is null)
-        {
-            return null;
-        }
-        if (ads.Images == null)
-        {
-            ads.Images = new List<string>();
-        }
+        var ads = await _adsRepository.GetById(adsId);
+        if (ads is null) return null;
+        if (ads.Images is null) ads.Images = new List<string>();
         ads.Images.Add(ImageName);
-        await _adsRepository.Update(ads); 
+        await _adsRepository.Update(ads);
         return ImageName;
     }
+
+    /// <summary>
+    ///     Возвращает изображение по имени файла.
+    /// </summary>
+    /// <param name="fileName">Имя файла изображения.</param>
+    /// <returns>Результат выполнения операции.</returns>
     public Task<FileContentResult> GetImage(string fileName)
     {
-        string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
-        string imagePath = Path.Combine(folderPath, fileName);
-        if (!System.IO.File.Exists(imagePath))
-        {
-            return Task.FromResult<FileContentResult>(null);
-        }
-        byte[] imageBytes = System.IO.File.ReadAllBytes(imagePath);
-        string mimeType = "image/jpeg";
+        var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+        var imagePath = Path.Combine(folderPath, fileName);
+        if (!File.Exists(imagePath)) return Task.FromResult<FileContentResult>(null);
+        var imageBytes = File.ReadAllBytes(imagePath);
+        var mimeType = "image/jpeg";
         return Task.FromResult(new FileContentResult(imageBytes, mimeType));
     }
+
+    /// <summary>
+    ///     Изменяет размер изображения и сохраняет его.
+    /// </summary>
+    /// <param name="fileName">Имя файла изображения.</param>
+    /// <param name="width">Ширина измененного изображения.</param>
+    /// <param name="height">Высота измененного изображения.</param>
+    /// <returns>Результат выполнения операции.</returns>
     public async Task<FileContentResult> ResizeAndSaveImage(string fileName, int width, int height)
     {
         var originalImageResult = await GetImage(fileName);
-        if (originalImageResult == null)
-        {
-            return null;
-        }
+        if (originalImageResult is null) return null;
         using (var stream = new MemoryStream(originalImageResult.FileContents))
         using (var image = Image.Load(stream))
         {
@@ -80,14 +96,16 @@ public class ImageService:IImageService
                 await image.SaveAsJpegAsync(outputStream);
                 resizedImageBytes = outputStream.ToArray();
             }
-            string mimeType = "image/jpeg";
-            string pathFolder = Path.Combine("wwwroot", "images","resize");
+
+            var mimeType = "image/jpeg";
+            var pathFolder = Path.Combine("wwwroot", "images", "resize");
             Directory.CreateDirectory(pathFolder);
-            string resizedImagePath=Path.Combine(pathFolder, fileName);
+            var resizedImagePath = Path.Combine(pathFolder, fileName);
             using (var outputStream = new FileStream(resizedImagePath, FileMode.Create))
             {
                 await image.SaveAsJpegAsync(outputStream);
             }
+
             return new FileContentResult(resizedImageBytes, mimeType);
         }
     }

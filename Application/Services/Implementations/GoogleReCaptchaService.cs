@@ -5,6 +5,9 @@ using Newtonsoft.Json;
 
 namespace Application.Services.Implementations;
 
+/// <summary>
+///     Реализация сервиса для работы с Google reCAPTCHA.
+/// </summary>
 public class GoogleReCaptchaService : IGoogleReCaptchaService
 {
     private readonly HttpClient _httpClient;
@@ -16,6 +19,11 @@ public class GoogleReCaptchaService : IGoogleReCaptchaService
         _options = options;
     }
 
+    /// <summary>
+    ///     Проверяет токен Google reCAPTCHA.
+    /// </summary>
+    /// <param name="recaptchaToken">Токен, полученный от клиента.</param>
+    /// <returns>Ответ от Google reCAPTCHA, содержащий результат проверки.</returns>
     public async Task<GoogleReCaptchaResponse> VerifyRecaptcha(string recaptchaToken)
     {
         var request = new FormUrlEncodedContent(new[]
@@ -32,10 +40,8 @@ public class GoogleReCaptchaService : IGoogleReCaptchaService
             var captchaResponse = JsonConvert.DeserializeObject<GoogleReCaptchaResponse>(jsonString);
             return captchaResponse;
         }
-        else
-        {
-            // Обработка ошибки при запросе к серверу Google reCAPTCHA
-            return new GoogleReCaptchaResponse { Success = false, ErrorMessage = "Ошибка при запросе к серверу Google reCAPTCHA." };
-        }
+
+        return new GoogleReCaptchaResponse
+            { Success = false, ErrorMessage = "Ошибка при запросе к серверу Google reCAPTCHA." };
     }
 }

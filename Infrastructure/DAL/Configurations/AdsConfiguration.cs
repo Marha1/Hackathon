@@ -4,7 +4,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.DAL.Configurations;
 
-public class AdsConfiguration:IEntityTypeConfiguration<Ads>
+/// <summary>
+///     Класс конфигурации для объявления
+/// </summary>
+public class AdsConfiguration : IEntityTypeConfiguration<Ads>
 {
     public void Configure(EntityTypeBuilder<Ads> builder)
     {

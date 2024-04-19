@@ -1,8 +1,13 @@
 using Domain.Enities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 namespace Infrastructure.DAL.Configurations;
-public class UserConfiguration: IEntityTypeConfiguration<User>
+
+/// <summary>
+///     Класс конфигурации для пользователя
+/// </summary>
+public class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
