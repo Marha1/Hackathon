@@ -1,6 +1,5 @@
 using Domain.Validations;
 using FluentValidation;
-using FluentValidation.Results;
 
 namespace Domain.Enities;
 
@@ -10,10 +9,10 @@ public class User : BaseEntity
     {
         Name = name;
         Admin = isAdmin;
-        var validationResult = Validate();
-        if (!validationResult.IsValid)
+        var validationErrors = Validate();
+        if (validationErrors.Any())
         {
-            var errorMessages = string.Join("\n", validationResult.Errors);
+            var errorMessages = string.Join("\n", validationErrors);
             throw new ValidationException(errorMessages);
         }
     }
@@ -62,9 +61,14 @@ public class User : BaseEntity
     ///     Проверяет валидность пользовательского объекта.
     /// </summary>
     /// <returns>Результат валидации.</returns>
-    public ValidationResult Validate()
+    /// <summary>
+    ///     Проверяет валидность пользовательского объекта.
+    /// </summary>
+    /// <returns>Список сообщений об ошибках валидации.</returns>
+    public List<string> Validate()
     {
         var validator = new UserValidation();
-        return validator.Validate(this);
+        var validationResult = validator.Validate(this);
+        return validationResult.Errors.Select(error => error.ErrorMessage).ToList();
     }
 }

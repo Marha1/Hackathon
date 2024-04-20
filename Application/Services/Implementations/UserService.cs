@@ -39,14 +39,9 @@ public class UserService : IUserService
     public async Task<UserGetAllResponse> GetAll()
     {
         var users = await _userRepository.GetAll();
-        var userDtOs = users.Select(user => _mapper.Map<BaseUserDto>(user));
+        var userDtOs = users.Select(user => _mapper.Map<BaseUserDto>(user)).ToList();
 
-        var response = new UserGetAllResponse
-        {
-            Users = userDtOs.ToList()
-        };
-
-        return response;
+        return new UserGetAllResponse { Users = userDtOs };
     }
 
     /// <summary>
@@ -69,8 +64,8 @@ public class UserService : IUserService
     /// <returns>Результат обновления информации о пользователе.</returns>
     public async Task<bool> Update(UserUpdateRequest entity)
     {
-        var users = _mapper.Map<User>(entity);
-        return await _userRepository.Update(users);
+        var user = _mapper.Map<User>(entity);
+        return await _userRepository.Update(user);
     }
 
     /// <summary>

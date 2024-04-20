@@ -18,6 +18,7 @@ builder.Services.AddScoped<IUserRepository<User>, UserRepository>();
 builder.Services.AddScoped<IAdsRepository<Ads>, AdsRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAdsService, AdsService>();
+builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IGoogleReCaptchaService, GoogleReCaptchaService>();
 builder.Services.Configure<GoogleReCaptchaSettings>(builder.Configuration.GetSection("GoogleReCaptchaSettings"));
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
@@ -38,7 +39,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseRouting();
-app.UseMiddleware<AdsValidationMiddleware>(); // Перенесено в нужное место
+app.UseMiddleware<AdsValidationMiddleware>();
+app.UseMiddleware<UserValidationMiddleware>();
+app.UseMiddleware<ImageValidationMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();

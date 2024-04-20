@@ -18,5 +18,5 @@ public class UserCreateRequest
     /// <summary>
     ///     Статус администратора у пользователя
     /// </summary>
-    public bool isAdmins { get; set; }
+    public bool Admin { get; set; }
 }

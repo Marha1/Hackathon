@@ -5,7 +5,7 @@ using FluentValidation;
 namespace Domain.Validations;
 
 /// <summary>
-///     Класс валидации пользоваетеля
+///     Класс валидации пользователя
 /// </summary>
 public class UserValidation : AbstractValidator<User>
 {
@@ -13,6 +13,8 @@ public class UserValidation : AbstractValidator<User>
 
     public UserValidation()
     {
+        CascadeMode = CascadeMode.Continue;
+
         RuleFor(x => x.Name)
             .NotNull().WithMessage(x => string.Format(ValidationMessages.IsNullOrEmpty, nameof(x.Name)))
             .Matches(@"^[a-zа-я]+$").WithMessage(x => string.Format(ValidationMessages.IsValidString, nameof(x.Name)))

@@ -1,6 +1,5 @@
 using Domain.Validations;
 using ValidationException = FluentValidation.ValidationException;
-using ValidationResult = FluentValidation.Results.ValidationResult;
 
 namespace Domain.Enities;
 
@@ -19,10 +18,10 @@ public class Ads : BaseEntity
         UserId = userId;
         Images = new List<string>();
 
-        var validationResult = Validate();
-        if (!validationResult.IsValid)
+        var validationErrors = Validate();
+        if (validationErrors.Any())
         {
-            var errorMessages = string.Join("\n", validationResult.Errors);
+            var errorMessages = string.Join("\n", validationErrors);
             throw new ValidationException(errorMessages);
         }
     }
@@ -99,9 +98,14 @@ public class Ads : BaseEntity
     ///     Проверяет валидность объявления с помощью валидатора AdsValidation.
     /// </summary>
     /// <returns>Результат валидации.</returns>
-    public ValidationResult Validate()
+    /// <summary>
+    ///     Проверяет валидность объявления.
+    /// </summary>
+    /// <returns>Список сообщений об ошибках валидации.</returns>
+    public List<string> Validate()
     {
         var validator = new AdsValidation();
-        return validator.Validate(this);
+        var validationResult = validator.Validate(this);
+        return validationResult.Errors.Select(error => error.ErrorMessage).ToList();
     }
 }

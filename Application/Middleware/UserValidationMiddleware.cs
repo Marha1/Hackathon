@@ -1,14 +1,14 @@
 using System.Text.Json;
-using Application.Dtos.AdsDto.Request;
+using Application.Dtos.UserDto.Request;
 using Application.Services.Interfaces;
 
 namespace Application.Middleware;
 
-public class AdsValidationMiddleware
+public class UserValidationMiddleware
 {
     private readonly RequestDelegate _next;
 
-    public AdsValidationMiddleware(RequestDelegate next)
+    public UserValidationMiddleware(RequestDelegate next)
     {
         _next = next;
     }
@@ -18,32 +18,12 @@ public class AdsValidationMiddleware
         using (var scope = serviceProvider.CreateScope())
         {
             var captchaService = scope.ServiceProvider.GetRequiredService<IGoogleReCaptchaService>();
-            var adsService = scope.ServiceProvider.GetRequiredService<IAdsService>();
             var userService = scope.ServiceProvider.GetRequiredService<IUserService>();
 
-            if (context.Request.Path.StartsWithSegments("/api/Ads/FindByText") &&
-                context.Request.Method.Equals("GET", StringComparison.OrdinalIgnoreCase))
+            if (context.Request.Path.StartsWithSegments("/api/User/Add") &&
+                context.Request.Method.Equals("POST", StringComparison.OrdinalIgnoreCase))
             {
-                var adsText = context.Request.Query["adsText"].ToString();
-
-                if (string.IsNullOrWhiteSpace(adsText))
-                {
-                    context.Response.StatusCode = StatusCodes.Status400BadRequest;
-                    await context.Response.WriteAsync("Текст объявления не может быть пустым.");
-                    return;
-                }
-
-                if (await adsService.FindByText(adsText) is null)
-                {
-                    context.Response.StatusCode = StatusCodes.Status404NotFound;
-                    await context.Response.WriteAsync("Объявление не найдено.");
-                    return;
-                }
-            }
-            else if (context.Request.Path.StartsWithSegments("/api/Ads/Add") &&
-                     context.Request.Method.Equals("POST", StringComparison.OrdinalIgnoreCase))
-            {
-                var token = context.Request.Query["token"].ToString();
+                var token = context.Request.Query["recaptchaToken"].ToString();
                 var captchaResponse = await captchaService.VerifyRecaptcha(token);
                 if (!captchaResponse.Success)
                 {
@@ -57,7 +37,7 @@ public class AdsValidationMiddleware
                 await context.Request.Body.CopyToAsync(memoryStream);
                 memoryStream.Seek(0, SeekOrigin.Begin);
 
-                var request = await JsonSerializer.DeserializeAsync<AdsCreateRequest>(memoryStream,
+                var request = await JsonSerializer.DeserializeAsync<UserCreateRequest>(memoryStream,
                     new JsonSerializerOptions
                     {
                         PropertyNameCaseInsensitive = true
@@ -71,122 +51,122 @@ public class AdsValidationMiddleware
 
                 if (request == null)
                 {
-                    Console.WriteLine("Request is null");
                     context.Response.StatusCode = StatusCodes.Status415UnsupportedMediaType;
                     await context.Response.WriteAsync("Формат тела запроса неподдерживаемый.");
                     return;
                 }
 
+                if (request.Name == null || request.Name == string.Empty)
+                {
+                    context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                    await context.Response.WriteAsync("Имя не может быть пустым");
+                    return;
+                }
+            }
+            else if (context.Request.Path.StartsWithSegments("/api/User/Get") &&
+                     context.Request.Method.Equals("GET", StringComparison.OrdinalIgnoreCase))
+            {
+                // Обработка получения всех пользователей
+                var response = await userService.GetAll();
+                if (response.Users == null)
+                {
+                    context.Response.StatusCode = StatusCodes.Status404NotFound;
+                    await context.Response.WriteAsync("Пользователей не найдено.");
+                    return;
+                }
+            }
+            else if (context.Request.Path.StartsWithSegments("/api/User/FindById") &&
+                     context.Request.Method.Equals("GET", StringComparison.OrdinalIgnoreCase))
+            {
+                // Обработка получения пользователя по идентификатору
+                var userIdString = context.Request.Query["userId"].ToString();
+                if (!Guid.TryParse(userIdString, out var userId))
+                {
+                    context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                    await context.Response.WriteAsync("Неверный формат идентификатора пользователя.");
+                    return;
+                }
 
-                if (request.UserId == Guid.Empty)
+                var user = await userService.FindById(userId);
+                if (user == null)
+                {
+                    context.Response.StatusCode = StatusCodes.Status404NotFound;
+                    await context.Response.WriteAsync("Пользователь не найден.");
+                    return;
+                }
+            }
+            else if (context.Request.Path.StartsWithSegments("/api/User/Delete") &&
+                     context.Request.Method.Equals("DELETE", StringComparison.OrdinalIgnoreCase))
+            {
+                // Обработка удаления пользователя
+                var memoryStream = new MemoryStream();
+                await context.Request.Body.CopyToAsync(memoryStream);
+                memoryStream.Seek(0, SeekOrigin.Begin);
+
+                var request = await JsonSerializer.DeserializeAsync<UserDeleteRequest>(memoryStream,
+                    new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
+
+                // Восстанавливаем позицию потока для дальнейшего использования в контроллере
+                memoryStream.Seek(0, SeekOrigin.Begin);
+
+                // Заменяем тело запроса на наш MemoryStream
+                context.Request.Body = memoryStream;
+                if (request == null)
+                {
+                    context.Response.StatusCode = StatusCodes.Status415UnsupportedMediaType;
+                    await context.Response.WriteAsync("Формат тела запроса неподдерживаемый.");
+                    return;
+                }
+
+                var deleted = await userService.Delete(request.Id);
+                if (!deleted)
+                {
+                    context.Response.StatusCode = StatusCodes.Status404NotFound;
+                    await context.Response.WriteAsync("Пользователь не найден.");
+                    return;
+                }
+            }
+            else if (context.Request.Path.StartsWithSegments("/api/User/Update") &&
+                     context.Request.Method.Equals("PUT", StringComparison.OrdinalIgnoreCase))
+            {
+                // Обработка обновления пользователя
+                var memoryStream = new MemoryStream();
+                await context.Request.Body.CopyToAsync(memoryStream);
+                memoryStream.Seek(0, SeekOrigin.Begin);
+
+                var request = await JsonSerializer.DeserializeAsync<UserUpdateRequest>(memoryStream,
+                    new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
+
+                // Восстанавливаем позицию потока для дальнейшего использования в контроллере
+                memoryStream.Seek(0, SeekOrigin.Begin);
+
+                // Заменяем тело запроса на наш MemoryStream
+                context.Request.Body = memoryStream;
+
+                if (request == null)
+                {
+                    context.Response.StatusCode = StatusCodes.Status415UnsupportedMediaType;
+                    await context.Response.WriteAsync("Формат тела запроса неподдерживаемый.");
+                    return;
+                }
+
+                if (request.Id == Guid.Empty)
                 {
                     context.Response.StatusCode = StatusCodes.Status400BadRequest;
                     await context.Response.WriteAsync("Id пользователя не может быть пустым!");
                     return;
                 }
 
-                if (await userService.FindById(request.UserId) is null)
+                if (userService.FindById(request.Id) == null)
                 {
                     context.Response.StatusCode = StatusCodes.Status404NotFound;
-                    await context.Response.WriteAsync("Пользователь не найден");
-                    return;
-                }
-
-                if (!adsService.TryToPublic(request.UserId))
-                {
-                    context.Response.StatusCode = StatusCodes.Status400BadRequest;
-                    await context.Response.WriteAsync("Пользователь достиг максимального количества объявлений");
-                    return;
-                }
-            }
-            else if (context.Request.Path.StartsWithSegments("/api/Ads/Get") &&
-                     context.Request.Method.Equals("GET", StringComparison.OrdinalIgnoreCase))
-            {
-                if (await adsService.GetAll() is null)
-                {
-                    context.Response.StatusCode = StatusCodes.Status404NotFound;
-                    await context.Response.WriteAsync("Объявлений не найдено");
-                    return;
-                }
-            }
-            else if (context.Request.Path.StartsWithSegments("/api/Ads/Delete") &&
-                     context.Request.Method.Equals("Delete", StringComparison.OrdinalIgnoreCase))
-            {
-                var memoryStream = new MemoryStream();
-                await context.Request.Body.CopyToAsync(memoryStream);
-                memoryStream.Seek(0, SeekOrigin.Begin);
-
-                var request = await JsonSerializer.DeserializeAsync<AdsCreateRequest>(memoryStream,
-                    new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true
-                    });
-
-                // Восстанавливаем позицию потока для дальнейшего использования в контроллере
-                memoryStream.Seek(0, SeekOrigin.Begin);
-
-                // Заменяем тело запроса на наш MemoryStream
-                context.Request.Body = memoryStream;
-                if (request == null)
-                {
-                    context.Response.StatusCode = StatusCodes.Status415UnsupportedMediaType;
-                    await context.Response.WriteAsync("Формат тела запроса неподдерживаемый.");
-                    return;
-                }
-
-                if (request.Id == Guid.Empty)
-                {
-                    context.Response.StatusCode = StatusCodes.Status400BadRequest;
-                    await context.Response.WriteAsync("Id не может быть пустым");
-                    return;
-                }
-
-
-                if (!await adsService.Delete(request.Id))
-                {
-                    context.Response.StatusCode = StatusCodes.Status404NotFound;
-                    await context.Response.WriteAsync("Объявление не найдено");
-                    return;
-                }
-            }
-            else if (context.Request.Path.StartsWithSegments("/api/Ads/Update") &&
-                     context.Request.Method.Equals("PUT", StringComparison.OrdinalIgnoreCase))
-            {
-                var memoryStream = new MemoryStream();
-                await context.Request.Body.CopyToAsync(memoryStream);
-                memoryStream.Seek(0, SeekOrigin.Begin);
-
-                var request = await JsonSerializer.DeserializeAsync<AdsUpdateRequest>(memoryStream,
-                    new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true
-                    });
-
-                // Восстанавливаем позицию потока для дальнейшего использования в контроллере
-                memoryStream.Seek(0, SeekOrigin.Begin);
-
-                // Заменяем тело запроса на наш MemoryStream
-                context.Request.Body = memoryStream;
-
-                if (request == null)
-                {
-                    context.Response.StatusCode = StatusCodes.Status415UnsupportedMediaType;
-                    await context.Response.WriteAsync("Формат тела запроса неподдерживаемый.");
-                    return;
-                }
-
-                if (request.Id == Guid.Empty)
-                {
-                    context.Response.StatusCode = StatusCodes.Status404NotFound;
-                    await context.Response.WriteAsync("Id объявлением не может быть пустым");
-                    return;
-                }
-
-                // Проверка на обновление объявления
-                if (!await adsService.Update(request))
-                {
-                    context.Response.StatusCode = StatusCodes.Status404NotFound;
-                    await context.Response.WriteAsync("Объявление не найдено");
+                    await context.Response.WriteAsync("Пользователь не найден.");
                     return;
                 }
             }

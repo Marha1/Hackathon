@@ -25,11 +25,7 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> AddUser([FromBody] UserCreateRequest request, [FromQuery] string recaptchaToken)
     {
-        var captchaResponse = await _captchaService.VerifyRecaptcha(recaptchaToken);
-        if (!captchaResponse.Success) return BadRequest("Ошибка при проверке капчи.");
-
-        if (_userService.Add(request) == null) return BadRequest("Не удалось добавить пользователя.");
-
+        await _userService.Add(request);
         return Ok("Пользователь успешно добавлен.");
     }
 
@@ -41,7 +37,6 @@ public class UserController : ControllerBase
     public async Task<IActionResult> GetUser()
     {
         var response = await _userService.GetAll();
-        if (response == null) return NotFound();
         return Ok(response);
     }
 
@@ -53,7 +48,6 @@ public class UserController : ControllerBase
     public async Task<IActionResult> GetUserById([FromQuery] Guid userId)
     {
         var user = await _userService.FindById(userId);
-        if (user == null) return NotFound();
         return Ok(user);
     }
 

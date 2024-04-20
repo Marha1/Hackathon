@@ -23,7 +23,7 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseEntit
     /// <param name="entity"></param>
     public async Task Add(T entity)
     {
-        await _context.AddAsync(entity);
+        await _context.Set<T>().AddAsync(entity);
         await _context.SaveChangesAsync();
     }
 
