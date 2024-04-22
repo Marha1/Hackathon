@@ -6,7 +6,7 @@ namespace Infrastructure.DAL.Interfaces;
 ///     Расширяющий интерфейс для объявления
 /// </summary>
 /// <typeparam name="Ads"></typeparam>
-public interface IAdsRepository<Ads> : IBaseRepository<Ads> where Ads : BaseEntity
+public interface IAdsRepository : IBaseRepository<Ads> 
 {
     /// <summary>
     ///     Попытка добавить объявление

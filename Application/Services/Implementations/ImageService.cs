@@ -12,9 +12,9 @@ namespace Application.Services.Implementations;
 /// </summary>
 public class ImageService : IImageService
 {
-    private readonly IAdsRepository<Ads> _adsRepository;
+    private readonly IAdsRepository _adsRepository;
 
-    public ImageService(IAdsRepository<Ads> adsRepository)
+    public ImageService(IAdsRepository adsRepository)
     {
         _adsRepository = adsRepository;
     }

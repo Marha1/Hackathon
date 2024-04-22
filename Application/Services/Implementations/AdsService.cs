@@ -12,11 +12,11 @@ namespace Application.Services.Implementations;
 /// </summary>
 public class AdsService : IAdsService
 {
-    private readonly IAdsRepository<Ads> _adsRepository;
+    private readonly IAdsRepository _adsRepository;
     private readonly IMapper _mapper;
-    private readonly IUserRepository<User> _userRepository;
+    private readonly IUserRepository _userRepository;
 
-    public AdsService(IAdsRepository<Ads> adsRepository, IMapper mapper, IUserRepository<User> userRepository)
+    public AdsService(IAdsRepository adsRepository, IMapper mapper, IUserRepository userRepository)
     {
         _adsRepository = adsRepository ?? throw new ArgumentNullException(nameof(adsRepository));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));

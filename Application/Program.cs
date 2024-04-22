@@ -14,8 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.json");
 builder.Services.AddDbContext<AplicationContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<IUserRepository<User>, UserRepository>();
-builder.Services.AddScoped<IAdsRepository<Ads>, AdsRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAdsRepository, AdsRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAdsService, AdsService>();
 builder.Services.AddScoped<IImageService, ImageService>();

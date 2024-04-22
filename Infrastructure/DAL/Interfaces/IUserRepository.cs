@@ -6,7 +6,7 @@ namespace Infrastructure.DAL.Interfaces;
 ///     Расширяющий интерфейс для пользователя
 /// </summary>
 /// <typeparam name="User"></typeparam>
-public interface IUserRepository<User> : IBaseRepository<User> where User : BaseEntity
+public interface IUserRepository : IBaseRepository<User> 
 {
     /// <summary>
     ///     Поиск пользователя по Id

@@ -7,7 +7,7 @@ namespace Infrastructure.DAL.Repository;
 /// <summary>
 ///     Реализация расширяющего интерфейса IUserRepository
 /// </summary>
-public class UserRepository : BaseRepository<User>, IUserRepository<User>
+public class UserRepository : BaseRepository<User>, IUserRepository
 {
     private readonly AplicationContext _context;
 

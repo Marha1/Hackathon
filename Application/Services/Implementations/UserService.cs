@@ -13,9 +13,9 @@ namespace Application.Services.Implementations;
 public class UserService : IUserService
 {
     private readonly IMapper _mapper;
-    private readonly IUserRepository<User> _userRepository;
+    private readonly IUserRepository _userRepository;
 
-    public UserService(IUserRepository<User> userRepository, IMapper mapper)
+    public UserService(IUserRepository userRepository, IMapper mapper)
     {
         _userRepository = userRepository;
         _mapper = mapper;

@@ -12,7 +12,7 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseEntit
 {
     private readonly AplicationContext _context;
 
-    public BaseRepository(AplicationContext aplicationContext)
+    internal BaseRepository(AplicationContext aplicationContext)
     {
         _context = aplicationContext;
     }
