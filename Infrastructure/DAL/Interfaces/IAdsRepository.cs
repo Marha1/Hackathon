@@ -6,14 +6,14 @@ namespace Infrastructure.DAL.Interfaces;
 ///     Расширяющий интерфейс для объявления
 /// </summary>
 /// <typeparam name="Ads"></typeparam>
-public interface IAdsRepository : IBaseRepository<Ads> 
+public interface IAdsRepository : IBaseRepository<Ads>
 {
     /// <summary>
     ///     Попытка добавить объявление
     /// </summary>
     /// <param name="userId">Id пользоветеля</param>
     /// <returns>True-если возможно добавить,в противном случае-False</returns>
-    public Task <bool> CanUserPublish(Guid userId);
+    public Task<bool> CanUserPublish(Guid userId);
 
     /// <summary>
     ///     Получение объявления по id

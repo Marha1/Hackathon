@@ -6,7 +6,7 @@ namespace Infrastructure.DAL.Interfaces;
 ///     Базовый интерфейс CRUD.
 /// </summary>
 /// <typeparam name="T">Тип сущности, производный от BaseEntity.</typeparam>
- public interface IBaseRepository<T> where T : BaseEntity
+public interface IBaseRepository<T> where T : BaseEntity
 {
     /// <summary>
     ///     Добавляет сущность в хранилище.

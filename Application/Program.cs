@@ -3,7 +3,6 @@ using Application.Mapping;
 using Application.Middleware;
 using Application.Services.Implementations;
 using Application.Services.Interfaces;
-using Domain.Enities;
 using Infrastructure;
 using Infrastructure.DAL.Configurations;
 using Infrastructure.DAL.Interfaces;

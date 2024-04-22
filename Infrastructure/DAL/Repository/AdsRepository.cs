@@ -9,7 +9,7 @@ namespace Infrastructure.DAL.Repository;
 /// <summary>
 ///     Реализация расширяющего интерфейса объявления
 /// </summary>
- public class AdsRepository : BaseRepository<Ads>, IAdsRepository
+public class AdsRepository : BaseRepository<Ads>, IAdsRepository
 {
     private readonly AplicationContext _context;
     private readonly IOptions<AppSettings> _options;

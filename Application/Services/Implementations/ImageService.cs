@@ -1,5 +1,4 @@
 using Application.Services.Interfaces;
-using Domain.Enities;
 using Infrastructure.DAL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
