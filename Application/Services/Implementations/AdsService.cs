@@ -54,9 +54,9 @@ public class AdsService : IAdsService
         return await _adsRepository.Delete(id);
     }
 
-    public bool TryToPublic(Guid id)
+    public  async Task <bool> TryToPublic(Guid id)
     {
-        return _adsRepository.CanUserPublish(id);
+        return  await _adsRepository.CanUserPublish(id);
     }
 
     public async Task<IEnumerable<AdsGetByTextResponce>> FindByText(string text)

@@ -26,7 +26,7 @@ public class AdsValidation : AbstractValidator<Ads>
             .Must(x => x.GetType() == typeof(string))
             .WithMessage(x => string.Format(ValidationMessages.IsValidType, nameof(x.Text)))
             .MaximumLength(MaxTextLength)
-            .WithMessage(x => string.Format(ValidationMessages.IsValidType, nameof(x.Text)));
+            .WithMessage(x => string.Format(ValidationMessages.IsMaxLength, nameof(x.Text)));
 
         RuleFor(x => x.Rating)
             .Cascade(CascadeMode.Continue)

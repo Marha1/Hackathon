@@ -92,7 +92,7 @@ public class AdsValidationMiddleware
                     return;
                 }
 
-                if (!adsService.TryToPublic(request.UserId))
+                if (!await adsService.TryToPublic(request.UserId))
                 {
                     context.Response.StatusCode = StatusCodes.Status400BadRequest;
                     await context.Response.WriteAsync("Пользователь достиг максимального количества объявлений");

@@ -25,9 +25,9 @@ namespace Infrastructure.DAL.Repository;
     /// </summary>
     /// <param name="userId">id пользователя</param>
     /// <returns>True-если возможно добавить,в противном случае-False</returns>
-    public bool CanUserPublish(Guid userId)
+    public async Task<bool> CanUserPublish(Guid userId)
     {
-        var user = _context.Users.Include(u => u.Ads).FirstOrDefault(x => x.Id == userId);
+        var user = await _context.Users.Include(u => u.Ads).FirstOrDefaultAsync(x => x.Id == userId);
         if (user == null) return false;
 
         return user.Ads.Count < _options.Value.MaxAdsPerUser;

@@ -40,7 +40,7 @@ public interface IAdsService
     /// </summary>
     /// <param name="id">Идентификатор объявления.</param>
     /// <returns>Результат попытки публикации объявления.</returns>
-    public bool TryToPublic(Guid id);
+    public  Task<bool> TryToPublic(Guid id);
 
     /// <summary>
     ///     Ищет объявления по тексту.

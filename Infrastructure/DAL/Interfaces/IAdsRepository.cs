@@ -13,7 +13,7 @@ public interface IAdsRepository : IBaseRepository<Ads>
     /// </summary>
     /// <param name="userId">Id пользоветеля</param>
     /// <returns>True-если возможно добавить,в противном случае-False</returns>
-    public bool CanUserPublish(Guid userId);
+    public Task <bool> CanUserPublish(Guid userId);
 
     /// <summary>
     ///     Получение объявления по id

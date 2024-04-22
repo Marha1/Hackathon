@@ -9,13 +9,11 @@ namespace Application.Controllers;
 [Route("api/[controller]")]
 public class UserController : ControllerBase
 {
-    private readonly IGoogleReCaptchaService _captchaService;
     private readonly IUserService _userService;
 
-    public UserController(IUserService userService, IGoogleReCaptchaService captchaService)
+    public UserController(IUserService userService)
     {
         _userService = userService;
-        _captchaService = captchaService;
     }
 
     // Добавление пользователя

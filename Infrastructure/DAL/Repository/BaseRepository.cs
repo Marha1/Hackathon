@@ -34,15 +34,9 @@ public abstract class BaseRepository<T> : IBaseRepository<T> where T : BaseEntit
     /// <returns></returns>
     public async Task<bool> Update(T entity)
     {
-        var findEntity = await _context.Set<T>().FirstOrDefaultAsync(e => e.Id == entity.Id);
-        if (findEntity != null)
-        {
-            _context.Entry(findEntity).CurrentValues.SetValues(entity);
-            await _context.SaveChangesAsync();
-            return true;
-        }
-
-        return false;
+        _context.Entry(entity).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+        return true;
     }
 
     /// <summary>
