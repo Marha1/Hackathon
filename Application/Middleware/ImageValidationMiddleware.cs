@@ -4,13 +4,11 @@ namespace Application.Middleware;
 
 public class ImageValidationMiddleware
 {
-    private readonly ILogger<ImageValidationMiddleware> _logger;
     private readonly RequestDelegate _next;
 
-    public ImageValidationMiddleware(RequestDelegate next, ILogger<ImageValidationMiddleware> logger)
+    public ImageValidationMiddleware(RequestDelegate next)
     {
         _next = next;
-        _logger = logger;
     }
 
     public async Task Invoke(HttpContext context, IServiceProvider serviceProvider)

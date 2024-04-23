@@ -27,18 +27,18 @@ public class ImageService : IImageService
     {
         if (file is null) return null;
 
-        var FileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+        var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
         var pathFolder = Path.Combine("wwwroot", "images");
         Directory.CreateDirectory(pathFolder);
 
-        var Filepath = Path.Combine(pathFolder, FileName);
+        var filePath = Path.Combine(pathFolder, fileName);
 
-        using (var stream = new FileStream(Filepath, FileMode.Create))
+        using (var stream = new FileStream(filePath, FileMode.Create))
         {
             await file.CopyToAsync(stream);
         }
 
-        return Path.Combine("images", FileName);
+        return Path.Combine("images", fileName);
     }
 
     /// <summary>
@@ -49,13 +49,13 @@ public class ImageService : IImageService
     /// <returns>Имя загруженного изображения.</returns>
     public async Task<string> UploadImages(IFormFile file, Guid adsId)
     {
-        var ImageName = await SaveImages(file);
+        var imageName = await SaveImages(file);
         var ads = await _adsRepository.GetById(adsId);
         if (ads is null) return null;
         if (ads.Images is null) ads.Images = new List<string>();
-        ads.Images.Add(ImageName);
+        ads.Images.Add(imageName);
         await _adsRepository.Update(ads);
-        return ImageName;
+        return imageName;
     }
 
     /// <summary>

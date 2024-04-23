@@ -32,13 +32,6 @@ public class AdsValidationMiddleware
                     await context.Response.WriteAsync("Текст объявления не может быть пустым.");
                     return;
                 }
-
-                if (await adsService.FindByText(adsText) is null)
-                {
-                    context.Response.StatusCode = StatusCodes.Status404NotFound;
-                    await context.Response.WriteAsync("Объявление не найдено.");
-                    return;
-                }
             }
             else if (context.Request.Path.StartsWithSegments("/api/Ads/Add") &&
                      context.Request.Method.Equals("POST", StringComparison.OrdinalIgnoreCase))

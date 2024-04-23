@@ -45,21 +45,12 @@ public class AdsController : ControllerBase
     [HttpGet("Filtration")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Filtration([FromQuery] bool ascending = false)
+    public async Task<IActionResult> Filtration(string text, [FromQuery] bool ascending = false)
     {
-        var responce = await _adsService.Filtration(ascending);
+        var responce = await _adsService.Filtration(ascending,text);
         return Ok(responce);
     }
-
-    [HttpGet("FindByText")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetAdsByText([FromQuery] string adsText)
-    {
-        var ads = await _adsService.FindByText(adsText);
-        return Ok(ads);
-    }
-
+    
     [HttpPut("Update")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]

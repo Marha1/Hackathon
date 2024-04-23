@@ -38,7 +38,7 @@ public class GoogleReCaptchaService : IGoogleReCaptchaService
         {
             var jsonString = await response.Content.ReadAsStringAsync();
             var captchaResponse = JsonConvert.DeserializeObject<GoogleReCaptchaResponse>(jsonString);
-            return captchaResponse;
+            if (captchaResponse != null) return captchaResponse;
         }
 
         return new GoogleReCaptchaResponse

@@ -43,15 +43,8 @@ public interface IAdsService
     public Task<bool> TryToPublic(Guid id);
 
     /// <summary>
-    ///     Ищет объявления по тексту.
-    /// </summary>
-    /// <param name="Name">Текст для поиска.</param>
-    /// <returns>Список объявлений, соответствующих критериям поиска.</returns>
-    public Task<IEnumerable<AdsGetByTextResponce>> FindByText(string Name);
-
-    /// <summary>
     ///     Фильтрует объявления .
     /// </summary>
     /// <returns>Список отфильтрованных объявлений.</returns>
-    public Task<IEnumerable<AdsFiltrationResponce>> Filtration(bool choose);
+    public Task<IEnumerable<AdsFiltrationResponce>> Filtration(bool choose, string text);
 }

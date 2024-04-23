@@ -5,7 +5,6 @@ namespace Infrastructure.DAL.Interfaces;
 /// <summary>
 ///     Расширяющий интерфейс для объявления
 /// </summary>
-/// <typeparam name="Ads"></typeparam>
 public interface IAdsRepository : IBaseRepository<Ads>
 {
     /// <summary>

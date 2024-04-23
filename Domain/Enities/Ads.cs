@@ -75,7 +75,7 @@ public class Ads : BaseEntity
     /// </summary>
     /// <param name="obj">Объект для сравнения.</param>
     /// <returns>True, если объекты равны, иначе False.</returns>
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         // Проверка на null и тип объекта
         if (obj == null || !(obj is Ads)) return false;

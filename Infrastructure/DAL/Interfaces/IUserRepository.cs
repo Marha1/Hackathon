@@ -5,7 +5,6 @@ namespace Infrastructure.DAL.Interfaces;
 /// <summary>
 ///     Расширяющий интерфейс для пользователя
 /// </summary>
-/// <typeparam name="User"></typeparam>
 public interface IUserRepository : IBaseRepository<User>
 {
     /// <summary>
