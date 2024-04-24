@@ -24,4 +24,14 @@ public class ValidationMessages
     ///     Ошибка максимального значениня
     /// </summary>
     public static string IsMaxLength { get; set; } = "Значение{0} не может быть длиннее 100 символов";
+
+    /// <summary>
+    ///     Ошибка  о максимаьном кол-ве объявлений
+    /// </summary>
+    public static string IsMaxPublic { get; set; } = "Достигнуто максимальное кол-во публикаций";
+
+    /// <summary>
+    ///     ошибка не найденной сущности
+    /// </summary>
+    public static string NotFound { get; set; } = "{0} не найден(о)";
 }

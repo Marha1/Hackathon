@@ -47,4 +47,11 @@ public interface IAdsService
     /// </summary>
     /// <returns>Список отфильтрованных объявлений.</returns>
     public Task<IEnumerable<AdsFiltrationResponce>> Filtration(bool choose, string text);
+
+    /// <summary>
+    ///     Поиск по Id
+    /// </summary>
+    /// <param name="id">Id объявления</param>
+    /// <returns>Ответ с информацией о найденном объявлении</returns>
+    public Task<IEnumerable<AdsGetAllResponce>> FindById(Guid id);
 }

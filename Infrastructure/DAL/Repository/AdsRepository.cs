@@ -40,6 +40,8 @@ public class AdsRepository : BaseRepository<Ads>, IAdsRepository
     /// <returns>Ответ содержащий найденое объявление</returns>
     public async Task<Ads> GetById(Guid id)
     {
-        return await _context.Ads.FirstOrDefaultAsync(x => x.Id == id);
+        var ads = await _context.Ads.FirstOrDefaultAsync(x => x.Id == id);
+        if (ads is null) return null;
+        return ads;
     }
 }

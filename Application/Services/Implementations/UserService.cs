@@ -29,6 +29,7 @@ public class UserService : IUserService
     public async Task<UserGetByIdResponse> FindById(Guid id)
     {
         var user = await _userRepository.FindById(id);
+        if (user is null) return null;
         return _mapper.Map<UserGetByIdResponse>(user);
     }
 

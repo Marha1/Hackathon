@@ -47,10 +47,10 @@ public class AdsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Filtration(string text, [FromQuery] bool ascending = false)
     {
-        var responce = await _adsService.Filtration(ascending,text);
+        var responce = await _adsService.Filtration(ascending, text);
         return Ok(responce);
     }
-    
+
     [HttpPut("Update")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]

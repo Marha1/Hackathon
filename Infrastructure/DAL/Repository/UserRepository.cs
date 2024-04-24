@@ -24,6 +24,7 @@ public class UserRepository : BaseRepository<User>, IUserRepository
     public async Task<User> FindById(Guid id)
     {
         var user = await _context.Users.Include(x => x.Ads).FirstOrDefaultAsync(x => x.Id == id);
+        if (user is null) return null;
         return user;
     }
 }
