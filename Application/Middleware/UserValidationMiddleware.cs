@@ -33,14 +33,14 @@ public class UserValidationMiddleware
                 if (context.Request.Path.StartsWithSegments("/api/User/Add") &&
                     context.Request.Method.Equals("POST", StringComparison.OrdinalIgnoreCase))
                 {
-                    // var token = context.Request.Query["recaptchaToken"].ToString();
-                    // var captchaResponse = await captchaService.VerifyRecaptcha(token);
-                    // if (!captchaResponse.Success)
-                    // {
-                    //     context.Response.StatusCode = StatusCodes.Status400BadRequest;
-                    //     await context.Response.WriteAsync("Ошибка при проверке капчи.");
-                    //     return;
-                    // }
+                    var token = context.Request.Query["recaptchaToken"].ToString();
+                    var captchaResponse = await captchaService.VerifyRecaptcha(token);
+                    if (!captchaResponse.Success)
+                    {
+                        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                        await context.Response.WriteAsync("Ошибка при проверке капчи.");
+                        return;
+                    }
 
                     // Создаем новый MemoryStream, куда будем записывать данные из оригинального запроса
                     var memoryStream = new MemoryStream();

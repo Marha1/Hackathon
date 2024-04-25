@@ -45,14 +45,14 @@ public class AdsValidationMiddleware
                 else if (context.Request.Path.StartsWithSegments("/api/Ads/Add") &&
                          context.Request.Method.Equals("POST", StringComparison.OrdinalIgnoreCase))
                 {
-                    // var token = context.Request.Query["token"].ToString();
-                    // var captchaResponse = await captchaService.VerifyRecaptcha(token);
-                    // if (!captchaResponse.Success)
-                    // {
-                    //     context.Response.StatusCode = StatusCodes.Status400BadRequest;
-                    //     await context.Response.WriteAsync("Ошибка при проверке капчи.");
-                    //     return;
-                    // }
+                    var token = context.Request.Query["token"].ToString();
+                    var captchaResponse = await captchaService.VerifyRecaptcha(token);
+                    if (!captchaResponse.Success)
+                    {
+                        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                        await context.Response.WriteAsync("Ошибка при проверке капчи.");
+                        return;
+                    }
 
                     // Создаем новый MemoryStream, куда будем записывать данные из оригинального запроса
                     var memoryStream = new MemoryStream();
