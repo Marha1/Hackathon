@@ -48,7 +48,7 @@ public class AdsMappingProfile : Profile
             .ForMember(dest => dest.ExpirationDate, opt => opt.MapFrom(src => src.ExpirationDate))
             .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Rating));
 
-        CreateMap<AdsFiltrationResponce, Ads>()
+        CreateMap<AdsFiltrationResponce, Ads>().ReverseMap()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.Number, opt => opt.MapFrom(src => src.Number))
             .ForMember(dest => dest.Text, opt => opt.MapFrom(src => src.Text))

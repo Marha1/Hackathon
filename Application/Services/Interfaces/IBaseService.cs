@@ -12,7 +12,7 @@ public interface IBaseService
     ///     Получает всех пользователей.
     /// </summary>
     /// <returns>Ответ с информацией о всех пользователях.</returns>
-    public Task<UserGetAllResponse> GetAll();
+    public Task<IEnumerable<UserGetAllResponse>> GetAll();
 
     /// <summary>
     ///     Добавляет нового пользователя.

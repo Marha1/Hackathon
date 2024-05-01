@@ -1,5 +1,4 @@
 using Application.Dtos.AdsDto.Request;
-using Application.Services.Interfaces;
 using Domain.Primitives;
 using FluentValidation;
 
@@ -11,13 +10,9 @@ namespace Application.Validations.AdsRequestValidation;
 public class AdsCreateRequestValidation : AbstractValidator<AdsCreateRequest>
 {
     private const int MaxTextLength = 100;
-    private readonly IAdsService _adsService;
-    private readonly IUserService _userService;
 
-    public AdsCreateRequestValidation(IAdsService adsService, IUserService userService)
+    public AdsCreateRequestValidation()
     {
-        _adsService = adsService;
-        _userService = userService;
         RuleFor(x => x.Number)
             .Cascade(CascadeMode.Continue)
             .NotNull().WithMessage(x => string.Format(ValidationMessages.IsNullOrEmpty, nameof(x.Number)))
@@ -51,23 +46,5 @@ public class AdsCreateRequestValidation : AbstractValidator<AdsCreateRequest>
             .NotNull().WithMessage(x => string.Format(ValidationMessages.IsNullOrEmpty, nameof(x.ExpirationDate)))
             .Must(x => x.GetType() == typeof(DateTime)).WithMessage(x =>
                 string.Format(ValidationMessages.IsValidType, nameof(x.ExpirationDate)));
-
-        RuleFor(x => x.UserId)
-            .Cascade(CascadeMode.StopOnFirstFailure)
-            .MustAsync(async (userId, _) =>
-            {
-                var user = await _userService.FindById(userId);
-                return user != null;
-            })
-            .WithMessage("Пользователь не найден");
-
-        RuleFor(x => x.UserId)
-            .Cascade(CascadeMode.Continue)
-            .NotNull().WithMessage(x => string.Format(ValidationMessages.IsNullOrEmpty, nameof(x.UserId)))
-            .NotEmpty().WithMessage(x => string.Format(ValidationMessages.IsNullOrEmpty, nameof(x.UserId)))
-            .Must(x => x.GetType() == typeof(Guid))
-            .WithMessage(x => string.Format(ValidationMessages.IsValidType, nameof(x.UserId)))
-            .MustAsync(async (userId, _) => { return await _adsService.TryToPublic(userId); })
-            .WithMessage(x => string.Format(ValidationMessages.IsMaxPublic, nameof(x.UserId)));
     }
 }

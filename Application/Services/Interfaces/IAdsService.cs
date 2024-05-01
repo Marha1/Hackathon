@@ -1,5 +1,6 @@
 using Application.Dtos.AdsDto.Request;
 using Application.Dtos.AdsDto.Responce;
+using Domain.Primitives;
 
 namespace Application.Services.Interfaces;
 
@@ -43,15 +44,18 @@ public interface IAdsService
     public Task<bool> TryToPublic(Guid id);
 
     /// <summary>
-    ///     Фильтрует объявления .
+    ///     Фильтрация объявлений
     /// </summary>
-    /// <returns>Список отфильтрованных объявлений.</returns>
-    public Task<IEnumerable<AdsFiltrationResponce>> Filtration(bool choose, string text);
+    /// <param name="ascending">по возрастанию или убыванию</param>
+    /// <param name="sortBy">Вид сортировки</param>
+    /// <param name="text">Для поиска объявления по тексту</param>
+    /// <returns></returns>
+    public Task<IEnumerable<AdsFiltrationResponce>> Filtration(bool choose, SortBy sort, string text);
 
     /// <summary>
     ///     Поиск по Id
     /// </summary>
     /// <param name="id">Id объявления</param>
     /// <returns>Ответ с информацией о найденном объявлении</returns>
-    public Task<IEnumerable<AdsGetAllResponce>> FindById(Guid id);
+    public Task<AdsGetAllResponce> FindById(Guid id);
 }

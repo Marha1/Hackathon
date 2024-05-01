@@ -8,7 +8,7 @@ namespace Application.Services.Interfaces;
 public interface IUserService : IBaseService
 {
     /// <summary>
-    ///     Находит пользователя по его идентификатору.
+    ///     Находит пользователя по его Id.
     /// </summary>
     /// <param name="id">Id пользователя.</param>
     /// <returns>Ответ с информацией о найденном пользователе.</returns>

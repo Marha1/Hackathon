@@ -3,6 +3,7 @@ using Application.Dtos.UserDto.Responce;
 using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Enities;
+using Domain.Primitives;
 using Infrastructure.DAL.Interfaces;
 
 namespace Application.Services.Implementations;
@@ -29,7 +30,8 @@ public class UserService : IUserService
     public async Task<UserGetByIdResponse> FindById(Guid id)
     {
         var user = await _userRepository.FindById(id);
-        if (user is null) return null;
+        if (user is null)
+            throw new ArgumentException(string.Format(ValidationMessages.NotFound, nameof(user.Id)));
         return _mapper.Map<UserGetByIdResponse>(user);
     }
 
@@ -37,12 +39,10 @@ public class UserService : IUserService
     ///     Получает всех пользователей.
     /// </summary>
     /// <returns>Ответ с информацией о всех пользователях.</returns>
-    public async Task<UserGetAllResponse> GetAll()
+    public async Task<IEnumerable<UserGetAllResponse>> GetAll()
     {
         var users = await _userRepository.GetAll();
-        var userDtOs = users.Select(user => _mapper.Map<BaseUserDto>(user)).ToList();
-
-        return new UserGetAllResponse { Users = userDtOs };
+        return _mapper.Map<IEnumerable<UserGetAllResponse>>(users);
     }
 
     /// <summary>

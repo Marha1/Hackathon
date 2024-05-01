@@ -28,7 +28,6 @@ public class UserValidationMiddleware
             using (var scope = serviceProvider.CreateScope())
             {
                 var captchaService = scope.ServiceProvider.GetRequiredService<IGoogleReCaptchaService>();
-                var userService = scope.ServiceProvider.GetRequiredService<IUserService>();
 
                 if (context.Request.Path.StartsWithSegments("/api/User/Add") &&
                     context.Request.Method.Equals("POST", StringComparison.OrdinalIgnoreCase))
@@ -79,14 +78,14 @@ public class UserValidationMiddleware
                 else if (context.Request.Path.StartsWithSegments("/api/User/Get") &&
                          context.Request.Method.Equals("GET", StringComparison.OrdinalIgnoreCase))
                 {
-                    // Обработка получения всех пользователей
-                    var response = await userService.GetAll();
-                    if (response.Users == null)
-                    {
-                        context.Response.StatusCode = StatusCodes.Status404NotFound;
-                        await context.Response.WriteAsync("Пользователей не найдено.");
-                        return;
-                    }
+                    // // Обработка получения всех пользователей
+                    // var response = await userService.GetAll();
+                    // if (response is null)
+                    // {
+                    //     context.Response.StatusCode = StatusCodes.Status404NotFound;
+                    //     await context.Response.WriteAsync("Пользователей не найдено.");
+                    //     return;
+                    // }
                 }
                 else if (context.Request.Path.StartsWithSegments("/api/User/FindById") &&
                          context.Request.Method.Equals("GET", StringComparison.OrdinalIgnoreCase))
@@ -99,7 +98,7 @@ public class UserValidationMiddleware
                         return;
                     }
 
-                    var validator = new UserGetByIdRequest(userService);
+                    var validator = new UserGetByIdRequestValidation();
                     var validationResult = await validator.ValidateAsync(new UserGetByIdResponse { Id = userId });
 
                     if (!validationResult.IsValid)
@@ -136,7 +135,7 @@ public class UserValidationMiddleware
                         return;
                     }
 
-                    var validator = new UserDeleteRequestValidation(userService);
+                    var validator = new UserDeleteRequestValidation();
                     var validationResult = await validator.ValidateAsync(request);
                     if (!validationResult.IsValid)
                     {
@@ -173,7 +172,7 @@ public class UserValidationMiddleware
                         return;
                     }
 
-                    var validator = new UserUpdateRequestValidation(userService);
+                    var validator = new UserUpdateRequestValidation();
                     var validationResult = await validator.ValidateAsync(request);
                     if (!validationResult.IsValid)
                     {

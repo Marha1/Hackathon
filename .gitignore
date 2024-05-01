@@ -24,6 +24,11 @@ atlassian-ide-plugin.xml
 .idea/httpRequests
 .idea/caches/build_file_checksums.ser
 
+
+/Application/Middleware/UserValidationMiddleware.cs
+/Application/Middleware/ImageValidationMiddleware.cs
+/Application/Middleware/AdsValidationMiddleware.cs
+
 bin/
 obj/
 /Application/wwwroot/

@@ -1,4 +1,5 @@
 using Domain.Enities;
+using Domain.Primitives;
 
 namespace Infrastructure.DAL.Interfaces;
 
@@ -20,4 +21,13 @@ public interface IAdsRepository : IBaseRepository<Ads>
     /// <param name="id">Id объявления</param>
     /// <returns>Ответ содержащий найденое объявление</returns>
     public Task<Ads> GetById(Guid id);
+
+    /// <summary>
+    ///     Фильтрация объявлений
+    /// </summary>
+    /// <param name="ascending">по возрастанию или убыванию</param>
+    /// <param name="sortBy">Вид сортировки</param>
+    /// <param name="text">Для поиска объявления по тексту</param>
+    /// <returns></returns>
+    public Task<IEnumerable<Ads>> Filtration(bool ascending, SortBy sortBy, string text);
 }

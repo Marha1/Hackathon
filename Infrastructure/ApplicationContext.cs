@@ -10,12 +10,9 @@ namespace Infrastructure;
 /// </summary>
 public class AplicationContext : DbContext
 {
-    private readonly IConfiguration _configuration;
-
     public AplicationContext(DbContextOptions<AplicationContext> options, IConfiguration configuration)
         : base(options)
     {
-        _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
     }
 
     /// <summary>

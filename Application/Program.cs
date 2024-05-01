@@ -39,9 +39,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 app.UseExceptionHandler("/Home/Error");
-app.UseMiddleware<AdsValidationMiddleware>();
-app.UseMiddleware<UserValidationMiddleware>();
-app.UseMiddleware<ImageValidationMiddleware>();
+app.UseMiddleware<ValidationMiddleware>();
+// app.UseMiddleware<UserValidationMiddleware>();
+// app.UseMiddleware<ImageValidationMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();

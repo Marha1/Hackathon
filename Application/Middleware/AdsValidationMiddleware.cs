@@ -79,7 +79,7 @@ public class AdsValidationMiddleware
                         return;
                     }
 
-                    var validator = new AdsCreateRequestValidation(adsService, userService);
+                    var validator = new AdsCreateRequestValidation();
                     var validationResult = await validator.ValidateAsync(request);
 
                     if (!validationResult.IsValid)
@@ -93,12 +93,12 @@ public class AdsValidationMiddleware
                 else if (context.Request.Path.StartsWithSegments("/api/Ads/Get") &&
                          context.Request.Method.Equals("GET", StringComparison.OrdinalIgnoreCase))
                 {
-                    if (await adsService.GetAll() is null)
-                    {
-                        context.Response.StatusCode = StatusCodes.Status404NotFound;
-                        await context.Response.WriteAsync("Объявлений не найдено");
-                        return;
-                    }
+                    // if (await adsService.GetAll() is null)
+                    // {
+                    //     context.Response.StatusCode = StatusCodes.Status404NotFound;
+                    //     await context.Response.WriteAsync("Объявлений не найдено");
+                    //     return;
+                    // }
                 }
                 else if (context.Request.Path.StartsWithSegments("/api/Ads/Delete") &&
                          context.Request.Method.Equals("Delete", StringComparison.OrdinalIgnoreCase))
@@ -125,7 +125,7 @@ public class AdsValidationMiddleware
                         return;
                     }
 
-                    var validator = new AdsDeleteRequestValidation(adsService);
+                    var validator = new AdsDeleteRequestValidation();
                     var validationResult = await validator.ValidateAsync(request);
 
                     if (!validationResult.IsValid)
@@ -162,7 +162,7 @@ public class AdsValidationMiddleware
                         return;
                     }
 
-                    var validator = new AdsUpdateRequestValidation(adsService);
+                    var validator = new AdsUpdateRequestValidation();
                     var validationResult = await validator.ValidateAsync(request);
 
                     if (!validationResult.IsValid)

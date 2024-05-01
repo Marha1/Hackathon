@@ -5,8 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Controllers;
 
-// Контроллер для работы с пользователями
+/// <summary>
+///     Контроллер для работы с пользователями
+/// </summary>
 [Route("api/[controller]")]
+[ApiController]
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
@@ -16,44 +19,68 @@ public class UserController : ControllerBase
         _userService = userService;
     }
 
-    // Добавление пользователя
+    /// <summary>
+    ///     Добавление пользователя
+    /// </summary>
+    /// <param name="request">Запрос на создание пользователя</param>
+    /// <returns>Результат операции</returns>
     [HttpPost("Add")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> AddUser([FromBody] UserCreateRequest request, [FromQuery] string recaptchaToken)
+    [ProducesResponseType(StatusCodes.Status200OK)] // Возвращает успешный статус при успешном добавлении пользователя
+    [ProducesResponseType(StatusCodes.Status400BadRequest)] // Возвращает статус ошибки запроса при некорректных данных
+    [ProducesResponseType(StatusCodes
+        .Status500InternalServerError)] // Возвращает статус ошибки сервера при внутренней ошибке
+    public async Task<IActionResult> AddUser([FromBody] UserCreateRequest request)
     {
         await _userService.Add(request);
         return Ok("Пользователь успешно добавлен.");
     }
 
-    // Получение всех пользователей
+    /// <summary>
+    ///     Получение всех пользователей
+    /// </summary>
+    /// <returns>Список всех пользователей</returns>
     [HttpGet("Get")]
-    [ProducesResponseType(typeof(IEnumerable<User>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(typeof(IEnumerable<User>),
+        StatusCodes.Status200OK)] // Возвращает список пользователей при успешном запросе
+    [ProducesResponseType(StatusCodes
+        .Status404NotFound)] // Возвращает статус ошибки "не найдено" при отсутствии пользователей
+    [ProducesResponseType(StatusCodes
+        .Status500InternalServerError)] // Возвращает статус ошибки сервера при внутренней ошибке
     public async Task<IActionResult> GetUser()
     {
         var response = await _userService.GetAll();
         return Ok(response);
     }
 
-    // Получение пользователя по идентификатору
+    /// <summary>
+    ///     Получение пользователя по идентификатору
+    /// </summary>
+    /// <param name="userId">Идентификатор пользователя</param>
+    /// <returns>Пользователь с указанным идентификатором</returns>
     [HttpGet("FindById")]
-    [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(typeof(User),
+        StatusCodes.Status200OK)] // Возвращает пользователя с указанным идентификатором при успешном запросе
+    [ProducesResponseType(StatusCodes
+        .Status404NotFound)] // Возвращает статус ошибки "не найдено" при отсутствии пользователя с указанным идентификатором
+    [ProducesResponseType(StatusCodes
+        .Status500InternalServerError)] // Возвращает статус ошибки сервера при внутренней ошибке
     public async Task<IActionResult> GetUserById([FromQuery] Guid userId)
     {
         var user = await _userService.FindById(userId);
         return Ok(user);
     }
 
-    // Удаление пользователя
+    /// <summary>
+    ///     Удаление пользователя
+    /// </summary>
+    /// <param name="request">Запрос на удаление пользователя</param>
+    /// <returns>Результат операции</returns>
     [HttpDelete("Delete")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status200OK)] // Возвращает успешный статус при успешном удалении пользователя
+    [ProducesResponseType(StatusCodes
+        .Status404NotFound)] // Возвращает статус ошибки "не найдено" при отсутствии пользователя для удаления
+    [ProducesResponseType(StatusCodes
+        .Status500InternalServerError)] // Возвращает статус ошибки сервера при внутренней ошибке
     public async Task<IActionResult> DeleteUser([FromBody] UserDeleteRequest request)
     {
         var deleted = await _userService.Delete(request.Id);
@@ -61,11 +88,16 @@ public class UserController : ControllerBase
         return Ok("Ok");
     }
 
-    // Обновление пользователя
+    /// <summary>
+    ///     Обновление пользователя
+    /// </summary>
+    /// <param name="request">Запрос на обновление пользователя</param>
+    /// <returns>Результат операции</returns>
     [HttpPut("Update")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status200OK)] // Возвращает успешный статус при успешном обновлении пользователя
+    [ProducesResponseType(StatusCodes.Status400BadRequest)] // Возвращает статус ошибки запроса при некорректных данных
+    [ProducesResponseType(StatusCodes
+        .Status500InternalServerError)] // Возвращает статус ошибки сервера при внутренней ошибке
     public async Task<IActionResult> Put([FromBody] UserUpdateRequest request)
     {
         if (!await _userService.Update(request)) return NotFound();
