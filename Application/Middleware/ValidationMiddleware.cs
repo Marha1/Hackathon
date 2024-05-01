@@ -118,6 +118,7 @@ public class ValidationMiddleware
                     context.Response.StatusCode = StatusCodes.Status400BadRequest;
                     await context.Response.WriteAsync("Ошибка при проверке капчи.");
                 }
+
                 context.Request.EnableBuffering();
                 var request = await DeserializeRequestBodyAsync<AdsCreateRequest>(context.Request);
                 context.Request.Body.Position = 0;
