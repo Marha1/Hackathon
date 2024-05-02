@@ -35,14 +35,7 @@ public interface IAdsService
     /// <param name="id">Id объявления.</param>
     /// <returns>Результат удаления объявления.</returns>
     public Task<bool> Delete(Guid id);
-
-    /// <summary>
-    ///     Попытка опубликовать объявление с проверкой кол-ва объявлений по Id пользователя.
-    /// </summary>
-    /// <param name="id">Идентификатор объявления.</param>
-    /// <returns>Результат попытки публикации объявления.</returns>
-    public Task<bool> TryToPublic(Guid id);
-
+    
     /// <summary>
     ///     Фильтрация объявлений
     /// </summary>
