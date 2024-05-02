@@ -10,8 +10,6 @@ namespace Application.Validations.UserRequestValidation;
 /// </summary>
 public class UserDeleteRequestValidation : AbstractValidator<UserDeleteRequest>
 {
-    private readonly IUserService _userService;
-
     public UserDeleteRequestValidation()
     {
         RuleFor(x => x.Id)

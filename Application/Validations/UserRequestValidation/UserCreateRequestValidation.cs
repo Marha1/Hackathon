@@ -10,7 +10,6 @@ namespace Application.Validations.UserRequestValidation;
 public class UserCreateRequestValidation : AbstractValidator<UserCreateRequest>
 {
     private const int MaxNameLength = 100;
-
     public UserCreateRequestValidation()
     {
         CascadeMode = CascadeMode.Continue;
